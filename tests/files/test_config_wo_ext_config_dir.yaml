@@ -1,0 +1,4 @@
+---
+some_key: "some_value"
+default_model: "my_test_model"
+# Note: ext_config_dir intentionally missing

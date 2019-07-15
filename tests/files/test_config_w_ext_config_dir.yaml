@@ -1,0 +1,4 @@
+---
+some_key: "some_value"
+ext_config_dir: "/some/junk/dir"
+# Note: default_model intentionally missing
