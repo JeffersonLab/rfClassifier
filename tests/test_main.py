@@ -11,7 +11,9 @@ class TestMain(TestCase):
         # Test that a basic use case without a default model works
         exp = {
             "some_key": "some_value",
-            "ext_config_dir": "/some/junk/dir"
+            "ext_config_dir": "/some/junk/dir",
+            "default_model": None,
+            "model": None
         }
         result = main.parse_config_file(os.path.join(test_dir, 'files', 'test_config_w_ext_config_dir.yaml'))
         self.assertDictEqual(exp, result)
@@ -20,7 +22,8 @@ class TestMain(TestCase):
         exp = {
             "some_key": "some_value",
             "ext_config_dir": r"\cs\certified\config\rfClassifier\v1",
-            "default_model": "my_test_model"
+            "default_model": "my_test_model",
+            'model': "my_test_model"
         }
         result = main.parse_config_file(os.path.join(test_dir, 'files', 'test_config_wo_ext_config_dir.yaml'))
         self.assertDictEqual(exp, result)
