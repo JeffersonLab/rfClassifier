@@ -6,6 +6,7 @@ import re
 
 import yaml
 import sys
+import json
 
 name = os.path.basename(__file__)
 """Short name of application associated with executable file"""
@@ -52,6 +53,45 @@ def parse_config_file(filename=os.path.join(os.path.dirname(__file__), 'config.y
     return config
 
 
+def print_brief_description(desc, is_default=False):
+    """Prints out a model description in a brief format.
+
+        Args:
+            desc (dict): A dictionary containing the description of a model.
+            is_default (bool): Is this model currently the default model for the application
+
+        Returns:
+            None: The model description is printed to standard out.
+    """
+    model_id = desc['id']
+    if is_default:
+        model_id += " (default)"
+
+    fmt_string = "{}" + os.linesep + "  Release Date:  {}" + os.linesep + "  Cavity Labels: {}" + os.linesep \
+                 + "  Fault Labels:  {}" + os.linesep + "  Brief:         {}"
+    print(fmt_string.format(model_id, desc['releaseDate'], desc['cavLabels'], desc['faultLabels'], desc['brief']))
+
+
+def print_detailed_description(desc, is_default=False):
+    """Prints out a model description in a detailed format.
+
+        Args:
+            desc (dict): A dictionary containing the description of a model.
+            is_default (bool): Is this model currently the default model for the application
+
+        Returns:
+            None: The model description is printed to standard out.
+    """
+    model_id = desc['id']
+    if is_default:
+        model_id += " (default)"
+
+    fmt_string = "{}" + os.linesep + "  Release Date:  {}" + os.linesep + "  Cavity Labels: {}" + os.linesep \
+                 + "  Fault Labels:  {}" + os.linesep + "  Brief:         {}" + os.linesep + "  Details:{}"
+    print(fmt_string.format(model_id, desc['releaseDate'], desc['cavLabels'], desc['faultLabels'], desc['brief'],
+                            desc['details']))
+
+
 def list_models(config, model=None, verbose=False):
     """List information about models available to this application
 
@@ -71,22 +111,26 @@ def list_models(config, model=None, verbose=False):
     default_model = config['default_model']
     sys.path.insert(0, os.path.join(config['ext_config']))
     models = importlib.import_module("models", config['ext_config'])
+    base_pattern = re.compile('^base_model')
+
+    # If the query was for a specific model, print more info by default
     if model is not None and model != 'base_model':
-        mod = importlib.import_module(".%s.%s" % (model, "model"), models)
-        tmp_mod = mod.Model()
-        desc = tmp_mod.describe()
-        model_id = desc['id']
-        if model_id == default_model:
-            model_id += " (default)"
-        fmt_string = "{}" + os.linesep + "  Release Date:  {}" + os.linesep + "  Cavity Labels: {}" + os.linesep \
-                     + "  Fault Labels:  {}" + os.linesep + "  Brief:         {}" + os.linesep + "  Details:{}"
-        print(
-            fmt_string.format(model_id, desc['releaseDate'], desc['cavLabels'], desc['faultLabels'], desc['brief'],
-                              desc['details']))
+        try:
+            mod = importlib.import_module("models.%s.model" % model)
+        except Exception as ex:
+            print("Error importing model - {}: {}".format(ex.__class__.__name__, ex))
+            return
+
+        desc = mod.Model.describe()
+        if verbose:
+            print_detailed_description(desc, desc['id'] == default_model)
+        else:
+            print_brief_description(desc, desc['id'] == default_model)
+
+    # If the query was for all of the models, only print the names by default
     else:
-        base_pattern = re.compile('^base_model')
-        for importer, modname, ispkg in pkgutil.iter_modules(models.__path__):
-            if ispkg:
+        for importer, modname, is_package in pkgutil.iter_modules(models.__path__):
+            if is_package:
                 if base_pattern.match(modname):
                     # Don't list out any of the base_models since a user can't call them directly
                     continue
@@ -100,25 +144,59 @@ def list_models(config, model=None, verbose=False):
                     try:
                         mod = importlib.import_module(".%s.%s" % (modname, "model"), 'models')
                         desc = mod.Model.describe()
-                        model_id = desc['id']
-                        if model_id == default_model:
-                            model_id += " (default)"
-
-                        fmt_string = "{}" + os.linesep + "  Release Date:  {}" + os.linesep + "  Cavity Labels: {}" + os.linesep \
-                                     + "  Fault Labels:  {}" + os.linesep + "  Brief:         {}"
-                        print(fmt_string.format(model_id, desc['releaseDate'], desc['cavLabels'], desc['faultLabels'],
-                                                desc['brief']))
+                        print_brief_description(desc, modname == default_model)
                         print()
                     except Exception as ex:
                         print("{}: Error accessing info - {}: {}".format(modname, ex.__class__.__name__, ex))
 
 
 def analyze_event(event_dir, config):
+    """Loads the model specified by config['model'] and uses it to analyze the given event_dir.
+
+    Args:
+        event_dir (str): The path to the fault event directory to be analyzed config.
+        config (dict): The configuration dictionary specifying the external config directory and which model to load.
+
+    Returns:
+         dict:  A dictionary containing the results of the analysis.  Should meet the pluggable model API.
+    """
     sys.path.insert(0, os.path.join(config['ext_config']))
-    mod = importlib.import_module("models.%s.model" % (config['model']))
+    try:
+        mod = importlib.import_module("models.%s.model" % (config['model']))
+    except Exception as ex:
+        print("Error loading model: {}".format(ex))
+        exit(1)
     sys.path.pop()
     model = mod.Model(event_dir)
-    model.analyze()
+    return model.analyze()
+
+
+def print_results_table(results, config, header=True):
+    """Prints the analysis results in a human readable table.
+
+    Args:
+        results (dict): The dictionary contain the results of an analysis.  Should meet the pluggable model API.
+        config (dict): The configuration dictionary specifying which model was used in the analysis.
+        header (bool): Should a header line be printed.  (Default true).
+
+    Returns:
+        None: The results are printed to standard out.
+    """
+
+    # Cavity Fault Zone Timestamp Model Cav-Conf Fault-Conf
+    fmt = "{:17s} {:17s} {:12s} {:22s} {:20s} {:10s} {:10s}"
+    if header:
+        print(fmt.format("Cavity", "Fault", "Zone", "Timestamp", "Model", "Cav-Conf", "Fault-Conf"))
+
+    print(fmt.format(
+        results['cavity-label'],
+        results['fault-label'],
+        results['location'],
+        results['timestamp'],
+        config['model'],
+        str(round(results['cavity-confidence'], 2)) if results['cavity-confidence'] is not None else "N/A",
+        str(round(results['fault-confidence'], 2)) if results['fault-confidence'] is not None else "N/A",
+    ))
 
 
 if __name__ == "__main__":
@@ -139,21 +217,53 @@ if __name__ == "__main__":
 
     # Subcommand to analyze an event
     analyze_parser = subparsers.add_parser('analyze', help="Analyze a fault event")
-    analyze_parser.add_argument("-m", "--model", help="Specify the model to be used", action="store_true",
-                                default=False)
-    analyze_parser.add_argument("event", nargs=1, help="The path to the fault event directory", default=None)
+    analyze_parser.add_argument("-m", "--model", help="Specify the model to be used",
+                                default=None, dest='model')
+    analyze_parser.add_argument("-o", "--output", help="Specify the output format (default: table)",
+                                default="table", dest='output')
+    analyze_parser.add_argument("-c", "--config", help="Specify the config file (default: config.yaml)",
+                                default=None, dest='config_file')
+    analyze_parser.add_argument("events", nargs='+', help="The path to the fault event directory", default=None)
 
     args = parser.parse_args()
     if args.subparser_name is None:
         print("%s %s" % (name, version))
         sys.exit(0)
 
-    config = parse_config_file(os.path.join(app_dir, 'config.yaml'))
+    config_file = 'config.yaml' if args.config_file is None else args.config_file
+    try:
+        cfg = parse_config_file(os.path.join(app_dir, config_file))
+    except FileNotFoundError as ex:
+        print("Error parsing config file: " + str(ex))
+        exit(1)
 
     if args.subparser_name == "list_models":
-        list_models(config, args.model, args.verbose)
+        list_models(cfg, args.model, args.verbose)
 
     if args.subparser_name == "analyze":
-        for event in args.event:
-            print(os.path.islink(event))
-            analyze_event(event, config)
+        if args.model is not None:
+            cfg['model'] = args.model
+        if cfg['model'] is None:
+            print("Error: No default model supplied in config file or on command line.")
+            exit(1)
+
+        exit_val = 0
+        out = []
+        for event in args.events:
+            try:
+                result = analyze_event(event, cfg)
+                out.append(result)
+            except Exception as ex:
+                exit_val += 1
+                print("Error analyzing " + event)
+                print("  " + ex.__class__.__name__ + ": " + str(ex))
+
+        if args.output == "json":
+            print(json.dumps(out, indent=2))
+        else:
+            header = True
+            for result in out:
+                print_results_table(result, cfg, header=header)
+                header = False
+
+        exit(exit_val)
