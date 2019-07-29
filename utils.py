@@ -31,3 +31,36 @@ def path_to_datetime(path):
 
     return datetime(year=int(date[0:4]), month=int(date[5:7]), day=int(date[8:10]), hour=int(time[0:2]),
                     minute=int(time[2:4]), second=int(time[4:6]), microsecond=int(time[7:8]) * 100000)
+
+
+def path_to_zone_and_timestamp(path, format="%Y-%m-%d %H:%M:%S.%f"):
+    """Returns a tuple containing the event zone and timestamp.
+
+        Args:
+            path (str): The path on the filesystem matching a fault event directory.  Ending in .../<date>/<time> where
+                        <date> is of the format YYYY_MM_DD and <time> is formatted hhmmss.S
+
+        Returns:
+            tuple: A tuple object containing strings for the event zone and timestamp
+
+        Raises:
+            ValueError: if the path is not of the expected format
+    """
+
+    time_pattern = re.compile(r'\d\d\d\d\d\d\.\d')
+    date_pattern = re.compile(r'\d\d\d\d_\d\d_\d\d')
+    path = os.path.abspath(path).split(os.path.sep)
+
+    time = str(path[-1])
+    date = str(path[-2])
+    zone = str(path[-3])
+    if not time_pattern.match(time):
+        raise ValueError("Path includes invalid time format - " + time)
+
+    if not date_pattern.match(date):
+        raise ValueError("Path includes invalid date format - " + date)
+
+    dt = datetime(year=int(date[0:4]), month=int(date[5:7]), day=int(date[8:10]), hour=int(time[0:2]),
+                  minute=int(time[2:4]), second=int(time[4:6]), microsecond=int(time[7:8]) * 100000)
+
+    return zone, dt.strftime(format)[:-5]
