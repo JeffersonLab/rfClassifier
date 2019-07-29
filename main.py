@@ -17,6 +17,32 @@ app_dir = os.path.dirname(os.path.abspath(__file__))
 version = "v0.1"
 """Application version string"""
 
+def insert_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
+    """Convenience function for including a model's virtualenv library in the application sys.path
+
+    Note: Use sys.path.pop(0) to remove before adding more to sys.path.
+    Args:
+        model_name (str): The name of the model.  Should match the name on the model package directory
+        model_dir (str): The directory path to the models directory. Should be the parent of the model package directory
+
+    Returns:
+        None
+    """
+    sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'site-packages'))
+
+
+def pop_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
+    """Convenience function for including a model's virtualenv library in the applicaiton sys.path
+
+    Args:
+        model_name (str): The name of the model.  Should match the name on the model package directory
+        model_dir (str): The directory path to the models directory. Should be the parent of the model package directory
+
+    Returns:
+        None
+    """
+    sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'site-packages'))
+
 
 def parse_config_file(filename=os.path.join(os.path.dirname(__file__), 'config.yaml')):
     """Parses a JSON formatted config file and while supplying some defaults
@@ -33,7 +59,7 @@ def parse_config_file(filename=os.path.join(os.path.dirname(__file__), 'config.y
 
     # Default values for the config file
     default = {
-        'ext_config_dir': r'\cs\certified\config\rfClassifier\v1',
+        'models_dir': r'\cs\certified\config\rfClassifier\v1',
         'default_model': None
     }
 
@@ -109,14 +135,16 @@ def list_models(config, model=None, verbose=False):
     """
 
     default_model = config['default_model']
-    sys.path.insert(0, os.path.join(config['ext_config']))
-    models = importlib.import_module("models", config['ext_config'])
+    sys.path.insert(0, os.path.join(config['model_dir']))
+    models = importlib.import_module("models", config['model_dir'])
     base_pattern = re.compile('^base_model')
 
     # If the query was for a specific model, print more info by default
     if model is not None and model != 'base_model':
         try:
+            insert_model_syspath(model)
             mod = importlib.import_module("models.%s.model" % model)
+            sys.path.pop(0)
         except Exception as ex:
             print("Error importing model - {}: {}".format(ex.__class__.__name__, ex))
             return
@@ -142,7 +170,9 @@ def list_models(config, model=None, verbose=False):
                     print("%s" % model_id)
                 else:
                     try:
+                        insert_model_syspath(modname)
                         mod = importlib.import_module(".%s.%s" % (modname, "model"), 'models')
+                        sys.path.pop(0)
                         desc = mod.Model.describe()
                         print_brief_description(desc, modname == default_model)
                         print()
@@ -160,7 +190,8 @@ def analyze_event(event_dir, config):
     Returns:
          dict:  A dictionary containing the results of the analysis.  Should meet the pluggable model API.
     """
-    sys.path.insert(0, os.path.join(config['ext_config']))
+    sys.path.insert(0, os.path.join(config['model_dir']))
+    insert_model_syspath(config['model'])
     try:
         mod = importlib.import_module("models.%s.model" % (config['model']))
     except Exception as ex:
