@@ -8,32 +8,20 @@ import yaml
 import sys
 import json
 
-name = os.path.basename(__file__)
-"""Short name of application associated with executable file"""
-
 app_dir = os.path.dirname(os.path.abspath(__file__))
 """The path to the base application directory"""
 
+name = os.path.basename(app_dir)
+"""Short name of application associated with executable file"""
+
 version = "v0.1"
 """Application version string"""
+
 
 def insert_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
     """Convenience function for including a model's virtualenv library in the application sys.path
 
     Note: Use sys.path.pop(0) to remove before adding more to sys.path.
-    Args:
-        model_name (str): The name of the model.  Should match the name on the model package directory
-        model_dir (str): The directory path to the models directory. Should be the parent of the model package directory
-
-    Returns:
-        None
-    """
-    sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'site-packages'))
-
-
-def pop_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
-    """Convenience function for including a model's virtualenv library in the applicaiton sys.path
-
     Args:
         model_name (str): The name of the model.  Should match the name on the model package directory
         model_dir (str): The directory path to the models directory. Should be the parent of the model package directory
@@ -191,13 +179,11 @@ def analyze_event(event_dir, config):
          dict:  A dictionary containing the results of the analysis.  Should meet the pluggable model API.
     """
     sys.path.insert(0, os.path.join(config['model_dir']))
-    insert_model_syspath(config['model'])
     try:
         mod = importlib.import_module("models.%s.model" % (config['model']))
     except Exception as ex:
         print("Error loading model: {}".format(ex))
         exit(1)
-    sys.path.pop()
     model = mod.Model(event_dir)
     return model.analyze()
 
@@ -238,6 +224,8 @@ if __name__ == "__main__":
         epilog="Users may select a specific model if desired.")
     parser.add_argument("-c", "--config", help="Specify the config file (default: config.yaml)",
                         default=os.path.join(app_dir, 'config.yaml'), dest='config_file')
+    parser.add_argument("-M", "--models_dir", help="Specify the directory contain the models package", default=None,
+                        dest='models_dir')
     subparsers = parser.add_subparsers(help='commands', dest="subparser_name")
 
     # Subcommand to list out models
@@ -254,6 +242,7 @@ if __name__ == "__main__":
                                 default="table", dest='output')
     analyze_parser.add_argument("events", nargs='+', help="The path to the fault event directory", default=None)
 
+    # Parse command line arguments.  Print out the certified name/version if none is specified
     args = parser.parse_args()
     if args.subparser_name is None:
         print("%s %s" % (name, version))
@@ -266,6 +255,10 @@ if __name__ == "__main__":
         print("Error parsing config file: " + str(ex))
         exit(1)
 
+    # Override the models_dir cfg parameter if one is specified
+    if args.models_dir is not None:
+        cfg['models_dir'] = args.models_dir
+
     if args.subparser_name == "list_models":
         list_models(cfg, args.model, args.verbose)
 
@@ -276,6 +269,8 @@ if __name__ == "__main__":
             print("Error: No default model supplied in config file or on command line.")
             exit(1)
 
+        # Load the add the venv package directoy of the specificed model into sys.path
+        insert_model_syspath(cfg['model'])
         exit_val = 0
         out = []
         for event in args.events:
@@ -294,5 +289,7 @@ if __name__ == "__main__":
             for result in out:
                 print_results_table(result, cfg, header=header)
                 header = False
+        # Remove the model's venv from sys.path
+        sys.path.pop()
 
         exit(exit_val)
