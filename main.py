@@ -205,14 +205,14 @@ if __name__ == "__main__":
         description="{} {}\nA program that determines the fault type and offending cavity based on a waveform data from a "
                     "C100 fault event".format(name, version),
         epilog="Users may select a specific model if desired.")
+    parser.add_argument("-c", "--config", help="Specify the config file (default: config.yaml)",
+                        default=os.path.join(app_dir, 'config.yaml'), dest='config_file')
     subparsers = parser.add_subparsers(help='commands', dest="subparser_name")
 
     # Subcommand to list out models
     list_parser = subparsers.add_parser('list_models', help='List out available models')
     list_parser.add_argument('-v', '--verbose', help='Print out detailed model information', action='store_true',
                              default=False)
-    list_parser.add_argument('-f', '--config-file', help='Specify an alternate config file', action='store_true',
-                             default=app_dir)
     list_parser.add_argument('model', nargs="?", help='A single model to show in more detail', default=None)
 
     # Subcommand to analyze an event
@@ -221,8 +221,6 @@ if __name__ == "__main__":
                                 default=None, dest='model')
     analyze_parser.add_argument("-o", "--output", help="Specify the output format (default: table)",
                                 default="table", dest='output')
-    analyze_parser.add_argument("-c", "--config", help="Specify the config file (default: config.yaml)",
-                                default=None, dest='config_file')
     analyze_parser.add_argument("events", nargs='+', help="The path to the fault event directory", default=None)
 
     args = parser.parse_args()
@@ -230,9 +228,9 @@ if __name__ == "__main__":
         print("%s %s" % (name, version))
         sys.exit(0)
 
-    config_file = 'config.yaml' if args.config_file is None else args.config_file
+    config_file = args.config_file
     try:
-        cfg = parse_config_file(os.path.join(app_dir, config_file))
+        cfg = parse_config_file(config_file)
     except FileNotFoundError as ex:
         print("Error parsing config file: " + str(ex))
         exit(1)
