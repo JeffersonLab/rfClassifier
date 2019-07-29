@@ -1,4 +1,4 @@
-venv\Scripts\activate
+venv\Scripts\Activate.ps1
 
 echo "#"
 echo "# Running application tests"
@@ -10,7 +10,10 @@ echo ""
 echo "#"
 echo "# Running model tests"
 echo "#"
-python -m unittest discover \Users\adamc\code\config\rfClassifier\v1 -v
+
+# Add the model directory to the environment's PYTHONPATH.  This allows for all of the needed imports.
+$env:PYTHONPATH = "C:\Users\adamc\code\config\rf_classifier\v1\models"
+python -m unittest discover \Users\adamc\code\config\rf_classifier\v1 -v
 
 
 deactivate
