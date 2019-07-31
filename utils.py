@@ -33,13 +33,13 @@ def path_to_datetime(path):
                     minute=int(time[2:4]), second=int(time[4:6]), microsecond=int(time[7:8]) * 100000)
 
 
-def path_to_zone_and_timestamp(path, format="%Y-%m-%d %H:%M:%S.%f"):
+def path_to_zone_and_timestamp(path, fmt="%Y-%m-%d %H:%M:%S.%f"):
     """Returns a tuple containing the event zone and timestamp.
 
         Args:
             path (str): The path on the filesystem matching a fault event directory.  Ending in .../<date>/<time> where
                         <date> is of the format YYYY_MM_DD and <time> is formatted hhmmss.S
-
+            fmt (str): The format string used by datetime.strftime.
         Returns:
             tuple: A tuple object containing strings for the event zone and timestamp
 
@@ -63,4 +63,4 @@ def path_to_zone_and_timestamp(path, format="%Y-%m-%d %H:%M:%S.%f"):
     dt = datetime(year=int(date[0:4]), month=int(date[5:7]), day=int(date[8:10]), hour=int(time[0:2]),
                   minute=int(time[2:4]), second=int(time[4:6]), microsecond=int(time[7:8]) * 100000)
 
-    return zone, dt.strftime(format)[:-5]
+    return zone, dt.strftime(fmt)[:-5]
