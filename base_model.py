@@ -241,12 +241,14 @@ class BaseModel(ABC):
                     raise ValueError(
                         "Model could not identify require waveform matching pattern '" + pattern.pattern + "'")
 
-    def validate_waveform_times(self, time_limits=(-1600, 1600)):
+    def validate_waveform_times(self, time_limits=(-1600, 1600), delta_max=0.025):
         """Verify the Time column of all capture files are identical and have a valid range and sample interval.
 
             Args:
                 time_limits (tuple): A two-valued tuple (min_t, max_t) which gives the minimum and maximum time values
                     that are allowed for a valid waveform.  Values in milliSeconds.
+                delta_max (float): The maximum difference between the smallest and largest time steps in milliseconds.
+                    (default is 0.025)
 
             Returns:
                 None
@@ -283,8 +285,8 @@ class BaseModel(ABC):
         lag = time - time.shift(1)
         lag = lag[1:len(lag)]
         delta = max(lag) - min(lag)
-        if delta > 0.01:
-            raise ValueError("Found discrepancies among sample intervals.  Range of intervals is {}".format(range))
+        if delta > delta_max:
+            raise ValueError("Found discrepancies among sample intervals.  Range of intervals is {}".format(delta))
 
     def validate_cavity_modes(self, mode=4, offset=-1.0):
         """Checks that each cavity was in the appropriate control mode.
