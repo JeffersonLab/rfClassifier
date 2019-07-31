@@ -1,3 +1,5 @@
 ---
-ext_config: 'C:\Users\adamc\code\config\rf_classifier\v1'
+#ext_config: 'C:\Users\adamc\code\config\rf_classifier\v1'
+# The parent directory of the models package directory
+model_dir: 'C:\Users\adamc\code\rf_classifier\'
 default_model: "random_forest_v0_1"
