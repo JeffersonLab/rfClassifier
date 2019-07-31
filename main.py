@@ -14,14 +14,15 @@ app_dir = os.path.dirname(os.path.abspath(__file__))
 name = os.path.basename(app_dir)
 """Short name of application associated with executable file"""
 
-version = "v0.1"
+version = "0.1"
 """Application version string"""
 
 
 def insert_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
     """Convenience function for including a model's virtualenv library in the application sys.path
 
-    Note: Use sys.path.pop(0) to remove before adding more to sys.path.
+    Note: Use pop_model_syspath() to undo.  Do not make any additional changes to the path before calling
+          pop_model_syspath() as it's implementation may be very naive.
     Args:
         model_name (str): The name of the model.  Should match the name on the model package directory
         model_dir (str): The directory path to the models directory. Should be the parent of the model package directory
@@ -30,7 +31,21 @@ def insert_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
         None
     """
     sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'site-packages'))
+    sys.path.insert(0, os.path.join(model_dir, model_name))
 
+def pop_model_syspath():
+    """Convenience function for removing a model's directories from sys.path that were added via insert_model_syspath
+
+    Returns:
+        None
+    """
+
+    # The current insert_model_syspath merely adds two directories to the front of sys.path.  pop(0) removes the first
+    # element.  This simple approach is sufficient for our use case where we add a path, run some model code, then
+    # remove it immediately.  Any thing more complex than that would require that the path be searched, etc. but trying
+    # to match paths based on model names risks removing the wrong entries and is not needed.
+    sys.path.pop(0)
+    sys.path.pop(0)
 
 def parse_config_file(filename=os.path.join(os.path.dirname(__file__), 'config.yaml')):
     """Parses a JSON formatted config file and while supplying some defaults
@@ -47,7 +62,7 @@ def parse_config_file(filename=os.path.join(os.path.dirname(__file__), 'config.y
 
     # Default values for the config file
     default = {
-        'models_dir': r'\cs\certified\config\rfClassifier\v1',
+        'models_dir': os.path.join('cs','certified', 'apps', name, version, 'models'),
         'default_model': None
     }
 
@@ -132,7 +147,7 @@ def list_models(config, model=None, verbose=False):
         try:
             insert_model_syspath(model)
             mod = importlib.import_module("models.%s.model" % model)
-            sys.path.pop(0)
+            pop_model_syspath()
         except Exception as ex:
             print("Error importing model - {}: {}".format(ex.__class__.__name__, ex))
             return
@@ -160,7 +175,7 @@ def list_models(config, model=None, verbose=False):
                     try:
                         insert_model_syspath(modname)
                         mod = importlib.import_module(".%s.%s" % (modname, "model"), 'models')
-                        sys.path.pop(0)
+                        pop_model_syspath()
                         desc = mod.Model.describe()
                         print_brief_description(desc, modname == default_model)
                         print()
@@ -219,7 +234,7 @@ def print_results_table(results, config, header=True):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
-        description="{} {}\nA program that determines the fault type and offending cavity based on a waveform data from a "
+        description="{} v{}\nA program that determines the fault type and offending cavity based on a waveform data from a "
                     "C100 fault event".format(name, version),
         epilog="Users may select a specific model if desired.")
     parser.add_argument("-c", "--config", help="Specify the config file (default: config.yaml)",
@@ -245,7 +260,7 @@ if __name__ == "__main__":
     # Parse command line arguments.  Print out the certified name/version if none is specified
     args = parser.parse_args()
     if args.subparser_name is None:
-        print("%s %s" % (name, version))
+        print("%s v%s" % (name, version))
         sys.exit(0)
 
     config_file = args.config_file
@@ -289,7 +304,7 @@ if __name__ == "__main__":
             for result in out:
                 print_results_table(result, cfg, header=header)
                 header = False
-        # Remove the model's venv from sys.path
-        sys.path.pop()
+        # Remove the model's venv, etc. from sys.path
+        pop_model_syspath()
 
         exit(exit_val)
