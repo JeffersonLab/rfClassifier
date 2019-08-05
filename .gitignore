@@ -2,3 +2,5 @@
 venv/
 .git/
 .idea/
+models/
+docs/build/
