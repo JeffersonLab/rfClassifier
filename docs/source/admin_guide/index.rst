@@ -15,7 +15,27 @@ This software is maintained on github at https://github.com/JeffersonLab/rf_clas
 Python 3.6 using a virtual environment, and it provides a requirements.txt file that can be used to "pip install"
 it's package dependencies.  Additionally this documentation is produced using Sphinx.  Once the application is
 installed, it's virtual environment created, it's packages installed, and documentation is created, the admin user
-should install any available models.
+should install any available models.  To install this software from github.com to an Accelerator Linux system:
+
+First download the software from github.com to the desired location.::
+
+    cd /path/to/installation
+    git clone https://github.com/JeffersonLab/rf_classifier
+
+Then create the python virtual environment based on the pubtools python 3.6 version.::
+
+    cd rf_classifier
+    /usr/csite/pubtools/python/3.6/bin/python -m venv ./venv
+
+Activate the virtual environment and install required packages.::
+
+    source venv/bin/activate
+    pip install < requirements.txt
+
+If desired, build the Spinx-based HTML documentation.  You may need to update the sys.path values in doc/config.py.::
+
+
+
 
 =====================
 Software Testing
@@ -24,6 +44,7 @@ A two scripts have been provided for automated testing of rf_classifier and it's
 tester.ps1, and on Linux this is tester.bash.  These unit tests should all be implemented using the unittest module as the testing script relies on unittests's
 autodiscovery feature.  Autodiscovery requires each module must be structured as a valid Python package, i.e., contained
  within a directory having an __init__.py file, and it requires that each test file be named following the test_*.py pattern.
+
 
 To run all unit tests associated with the application and it's models, simply execute the test script.  For example, on
 Linux::
