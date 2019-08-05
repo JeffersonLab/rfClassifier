@@ -2,4 +2,5 @@
 venv/
 .git/
 .idea/
-docs/build/
+docs/build/html
+docs/build/doctrees
