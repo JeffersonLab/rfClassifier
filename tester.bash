@@ -1,9 +1,9 @@
-venv\Scripts\Activate.ps1
+source venv/Scripts/activate
 
 echo "#"
 echo "# Running application tests"
 echo "#"
-python -m unittest discover tests -v
+python3 -m unittest discover tests -v
 
 echo ""
 echo ""
@@ -12,8 +12,8 @@ echo "# Running model tests"
 echo "#"
 
 # Add the model directory to the environment's PYTHONPATH.  This allows for all of the needed imports.
-$env:PYTHONPATH = ".\models;.\venv\Lib\site-packages"
-python -m unittest discover .\models -v
+export PYTHONPATH="./models:./venv/Lib/site-packages"
+python3 -m unittest discover ./models -v
 
 
 deactivate
