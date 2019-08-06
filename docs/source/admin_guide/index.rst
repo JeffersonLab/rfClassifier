@@ -17,7 +17,7 @@ it's package dependencies.  Additionally this documentation is produced using Sp
 installed, it's virtual environment created, it's packages installed, and documentation is created, the admin user
 should install any available models.  To install this software from github.com to an Accelerator Linux system:
 
-First download the software from github.com to the desired location.::
+First download the software from github.com to the desired location.  TODO: HOW TO SPECIFY A VERSION?::
 
     cd /path/to/installation
     git clone https://github.com/JeffersonLab/rf_classifier
@@ -32,9 +32,18 @@ Activate the virtual environment and install required packages.::
     source venv/bin/activate
     pip install < requirements.txt
 
-If desired, build the Spinx-based HTML documentation.  You may need to update the sys.path values in doc/config.py.::
+If desired, build the Spinx-based HTML documentation.  Launch Firefox to view them.::
 
+    cd docs/
+    make html
+    firefox build/html/index.html
 
+Run the application's test suite.  No models have been installed so this will be a quick test of the base code.::
+
+    cd ..
+    ./tester.bash
+
+Finally, install any models following the guidance below.  Then rerun the test script.
 
 
 =====================
@@ -53,7 +62,7 @@ Linux::
     # .\tester.bash
 
 =====================
-Adding A Model
+Installing A Model
 =====================
 First note that all models should be added to github under the name rf_classifier_<model_name>, where <model_name> is
 the model's unique ID without any version info.  E.g., for my_model_v2_7, <model_name> would be my_model.  This project
