@@ -17,20 +17,23 @@ it's package dependencies.  Additionally this documentation is produced using Sp
 installed, it's virtual environment created, it's packages installed, and documentation is created, the admin user
 should install any available models.  To install this software from github.com to an Accelerator Linux system:
 
-First download the software from github.com to the desired location.  TODO: HOW TO SPECIFY A VERSION?::
+First download the software from github.com to the desired location.  All versions are kept as tags.  Checkout the desired
+version after download the git repository.::
 
     cd /path/to/installation
     git clone https://github.com/JeffersonLab/rf_classifier
+    cd rf_classifier
+    git tag -l
+    git checkout <version-tag>
 
 Then create the python virtual environment based on the pubtools python 3.6 version.::
 
-    cd rf_classifier
-    /usr/csite/pubtools/python/3.6/bin/python -m venv ./venv
+    /usr/csite/pubtools/python/3.5.2/bin/python -m venv ./venv
 
-Activate the virtual environment and install required packages.::
+Activate the virtual environment and install required packages.  Source venv/bin/activate for bash shells::
 
-    source venv/bin/activate
-    pip install < requirements.txt
+    source venv/bin/activate.csh
+    pip install -r requirements.txt
 
 If desired, build the Spinx-based HTML documentation.  Launch Firefox to view them.::
 
@@ -52,7 +55,7 @@ Software Testing
 A two scripts have been provided for automated testing of rf_classifier and it's associated models.  On Windows this is
 tester.ps1, and on Linux this is tester.bash.  These unit tests should all be implemented using the unittest module as the testing script relies on unittests's
 autodiscovery feature.  Autodiscovery requires each module must be structured as a valid Python package, i.e., contained
- within a directory having an __init__.py file, and it requires that each test file be named following the test_*.py pattern.
+within a directory having an __init__.py file, and it requires that each test file be named following the test_*.py pattern.
 
 
 To run all unit tests associated with the application and it's models, simply execute the test script.  For example, on
@@ -112,9 +115,9 @@ rf_classifier reads configuration settings from a YAML formatted configuration f
 configurable, but the application attempts to read config.yaml from the application directory by default.  The below
 tables gives accepted configuration options and their information.
 
-============  ================= ==============
-Option        Default Value     Description
-============  ================= ==============
-models_dir    <app_dir>/models  Directory containing model packages
-default_model None              Name of the model to use in analyzing an event
-
+=============  ================= ==============
+Option         Default Value     Description
+=============  ================= ==============
+models_dir     <app_dir>/models  Directory containing model packages
+default_model  None              Name of the model to use in analyzing an event
+=============  ================= ==============
