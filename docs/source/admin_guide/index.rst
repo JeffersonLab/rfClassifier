@@ -43,7 +43,7 @@ If desired, build the Spinx-based HTML documentation.  Launch Firefox to view th
 Run the application's test suite.  No models have been installed so this will be a quick test of the base code.::
 
     cd ..
-    ./tester.bash
+    bash ./tester.bash
 
 Finally, install any models following the guidance below.  Then rerun the test script.
 
@@ -60,8 +60,8 @@ within a directory having an __init__.py file, and it requires that each test fi
 To run all unit tests associated with the application and it's models, simply execute the test script.  For example, on
 Linux::
 
-    # cd /cs/certified/apps/rf_classifier/PRO
-    # ./tester.bash
+    cd /cs/certified/apps/rf_classifier/PRO
+    bash ./tester.bash
 
 =====================
 Installing A Model
@@ -80,33 +80,33 @@ example assumes that the model uses Sphinx documentation which must be built aft
 
 First deploy the model into the model directory of the desired version of the application.::
 
-    # cd /cs/certified/apps/rf_classifier/PRO/models
-    # git clone https://github.com/JeffersonLab/rf_classifier_random_forest_v0_1 random_forest_v0_1
+    cd /cs/certified/apps/rf_classifier/PRO/models
+    git clone https://github.com/JeffersonLab/rf_classifier_random_forest_v0_1 random_forest_v0_1
 
 Then create and activate a virtual environment for this package.  The rf_classifier application is designed to look in
 the venv directory for packages this model depends on.  Use the pubtools python 3.6 version to be consistent with the
 base application's interpreter.::
 
-    # cd random_forest_v0_1
-    # /usr/csite/pubtools/python/3.6/bin/python3 -m venv venv
-    # source venv/bin/activate.csh
+    cd random_forest_v0_1
+    /usr/csite/pubtools/python/3.6/bin/python3 -m venv venv
+    source venv/bin/activate.csh
 
 Install the package dependencies, assuming the model has specified it's package requirements in requirements.txt.::
 
-    # pip3 install -r requirements.txt
+    pip3 install -r requirements.txt
 
 If needed, build the model's documentation.  This model uses Sphinx which provides a Makefile and can compile it's reST
 files into a number of formats, including html.  Check the documentation via firefox before moving on.::
 
-    # cd docs/source
-    # make html
-    # firefox ../build/html/index.html
+    cd docs/source
+    make html
+    firefox ../build/html/index.html
 
 Run the model's test code.  The easiest way is to run the application's tester.bash script and verify that the model's
 tests appear and all are passed.::
 
-    # cd /cs/certified/apps/rf_classifier/PRO/
-    # ./tester.bash
+    cd /cs/certified/apps/rf_classifier/PRO/
+    bash ./tester.bash
 
 ===========================
 Application Configuration
