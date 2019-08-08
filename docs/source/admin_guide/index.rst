@@ -42,7 +42,7 @@ If desired, build the Spinx-based HTML documentation.  Launch Firefox to view th
 
 Run the application's test suite.  No models have been installed so this will be a quick test of the base code.::
 
-    cd ..
+    cd ../tests
     bash ./tester.bash
 
 Finally, install any models following the guidance below.  Then rerun the test script.
@@ -60,7 +60,7 @@ within a directory having an __init__.py file, and it requires that each test fi
 To run all unit tests associated with the application and it's models, simply execute the test script.  For example, on
 Linux::
 
-    cd /cs/certified/apps/rf_classifier/PRO
+    cd /cs/certified/apps/rf_classifier/PRO/test
     bash ./tester.bash
 
 =====================
@@ -105,15 +105,15 @@ files into a number of formats, including html.  Check the documentation via fir
 Run the model's test code.  The easiest way is to run the application's tester.bash script and verify that the model's
 tests appear and all are passed.::
 
-    cd /cs/certified/apps/rf_classifier/PRO/
+    cd /cs/certified/apps/rf_classifier/PRO/tests
     bash ./tester.bash
 
 ===========================
 Application Configuration
 ===========================
 rf_classifier reads configuration settings from a YAML formatted configuration file.  The location of this file is
-configurable, but the application attempts to read config.yaml from the application directory by default.  The below
-tables gives accepted configuration options and their information.
+configurable, but the application attempts to read cfg/config.yaml from the application directory by default.  The
+below tables gives accepted configuration options and their information.
 
 =============  ================= ==============
 Option         Default Value     Description
@@ -121,3 +121,17 @@ Option         Default Value     Description
 models_dir     <app_dir>/models  Directory containing model packages
 default_model  None              Name of the model to use in analyzing an event
 =============  ================= ==============
+
+==========================
+Running the Application
+==========================
+This project has launcher scripts for running the application from Linux and Windows.  These scripts setup the Python
+environment and call main.py with an specified arguments.
+
+On Linux, use the following bash script:::
+
+    rf_classifier/bin/rf_classifier.bash
+
+On Windows, use the following PowerShell script:::
+
+    rf_classifier\bin\rf_classifier.ps1

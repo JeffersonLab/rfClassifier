@@ -8,10 +8,10 @@ import yaml
 import sys
 import json
 
-app_dir = os.path.dirname(os.path.abspath(__file__))
+app_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 """The path to the base application directory"""
 
-name = os.path.basename(app_dir)
+name = 'rf_classifier'
 """Short name of application associated with executable file"""
 
 version = "0.1"
@@ -47,7 +47,7 @@ def pop_model_syspath():
     sys.path.pop(0)
     sys.path.pop(0)
 
-def parse_config_file(filename=os.path.join(os.path.dirname(__file__), 'config.yaml')):
+def parse_config_file(filename=os.path.join(app_dir, 'cfg', 'config.yaml')):
     """Parses a JSON formatted config file and while supplying some defaults
 
     Args:
@@ -237,8 +237,8 @@ if __name__ == "__main__":
         description="{} v{}\nA program that determines the fault type and offending cavity based on a waveform data from a "
                     "C100 fault event".format(name, version),
         epilog="Users may select a specific model if desired.")
-    parser.add_argument("-c", "--config", help="Specify the config file (default: config.yaml)",
-                        default=os.path.join(app_dir, 'config.yaml'), dest='config_file')
+    parser.add_argument("-c", "--config", help="Specify config file (default: " + os.path.join('cfg', 'config.yaml') + ")",
+                        default=os.path.join(app_dir, 'cfg', 'config.yaml'), dest='config_file')
     parser.add_argument("-M", "--models_dir", help="Specify the directory contain the models package", default=None,
                         dest='models_dir')
     subparsers = parser.add_subparsers(help='commands', dest="subparser_name")
