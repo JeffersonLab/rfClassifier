@@ -22,13 +22,12 @@ version after download the git repository.::
 
     cd /path/to/installation
     git clone https://github.com/JeffersonLab/rf_classifier
-    cd rf_classifier
     git tag -l
     git checkout <version-tag>
 
-Then create the python virtual environment based on the pubtools python 3.6 version.::
+Then create the python virtual environment based on the pubtools python 3.6.9 version.::
 
-    /usr/csite/pubtools/python/3.5.2/bin/python -m venv ./venv
+    /usr/csite/pubtools/python/3.6.9/bin/python -m venv ./venv
 
 Activate the virtual environment and install required packages.  Source venv/bin/activate for bash shells::
 
