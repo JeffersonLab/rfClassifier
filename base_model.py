@@ -127,7 +127,7 @@ class BaseModel(ABC):
         """
         zone_df = None
 
-        for filename in os.listdir(self.event_dir):
+        for filename in sorted(os.listdir(self.event_dir)):
             # Only try to process files that look like capture files
             if not self.is_capture_file(filename):
                 continue
