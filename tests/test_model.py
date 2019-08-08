@@ -62,7 +62,6 @@ class TestBaseModel(TestCase):
 
         self.assertTrue(exp_df.equals(result_df))
         self.assertTrue(check_list_equal(exp_df.columns, result_df.columns))
-        # self.assertTrue(exp_df.columns == result_df.columns)
 
     def test_validate_capture_file_counts(self):
         # Should work
