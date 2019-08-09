@@ -96,12 +96,7 @@ Install the package dependencies, assuming the model has specified it's package 
 
     pip3 install -r requirements.txt
 
-If needed, build the model's documentation.  This model uses Sphinx which provides a Makefile and can compile it's reST
-files into a number of formats, including html.  Check the documentation via firefox before moving on.::
-
-    cd docs/source
-    make html
-    firefox ../build/html/index.html
+If needed, build the model's documentation.  This models uses a simple markdown README, so nothing needs to be done.
 
 Run the model's test code.  The easiest way is to run the application's tester.bash script and verify that the model's
 tests appear and all are passed.::
