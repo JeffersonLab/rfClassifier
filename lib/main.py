@@ -31,6 +31,7 @@ def insert_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
         None
     """
     sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'site-packages'))
+    sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'python3.6', 'site-packages'))
     sys.path.insert(0, os.path.join(model_dir, model_name))
 
 def pop_model_syspath():
@@ -44,6 +45,7 @@ def pop_model_syspath():
     # element.  This simple approach is sufficient for our use case where we add a path, run some model code, then
     # remove it immediately.  Any thing more complex than that would require that the path be searched, etc. but trying
     # to match paths based on model names risks removing the wrong entries and is not needed.
+    sys.path.pop(0)
     sys.path.pop(0)
     sys.path.pop(0)
 
