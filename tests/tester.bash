@@ -14,7 +14,7 @@ if [ "$(ls ../models | wc -w)" != '0' ] ; then
     echo "# Running model tests"
     echo "#"
 
-    python3 -m unittest discover ../models -vl
+    python3 -m unittest discover ../models -v
 else
     echo "# No models found to test"
 fi
