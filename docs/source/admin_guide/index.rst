@@ -78,17 +78,18 @@ Here's an example for deploying a model from github.com using a Linux terminal. 
 include notes on any non-standard steps.  One specific difference that may occur is in creating documentation.  This
 example assumes that the model uses Sphinx documentation which must be built after deployment.
 
-First deploy the model into the model directory of the desired version of the application.::
+First deploy the model into the model directory of the desired version of the application.  The random_forest model
+is available on github and uses Sphinx documentation.::
 
     cd /cs/certified/apps/rf_classifier/PRO/models
-    git clone https://github.com/JeffersonLab/rf_classifier_random_forest_v0_1 random_forest_v0_1
+    git clone https://github.com/JeffersonLab/rf_classifier_random_forest random_forest_v0_1
 
 Then create and activate a virtual environment for this package.  The rf_classifier application is designed to look in
 the venv directory for packages this model depends on.  Use the pubtools python 3.6 version to be consistent with the
 base application's interpreter.::
 
     cd random_forest_v0_1
-    /usr/csite/pubtools/python/3.6/bin/python3 -m venv venv
+    /usr/csite/pubtools/python/3.6/bin/python3 -m venv ./venv
     source venv/bin/activate.csh
 
 Install the package dependencies, assuming the model has specified it's package requirements in requirements.txt.::
