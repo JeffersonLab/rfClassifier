@@ -17,7 +17,7 @@
 # Need this for autodoc to pickup the modules in the project root
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
+sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "lib")))
 
 # -- Project information -----------------------------------------------------
 
