@@ -1,7 +1,6 @@
 # Get the parent directory of this script
 $scriptDir = split-path -parent $MyInvocation.MyCommand.Definition
 $appDir = split-path -parent $scriptDir
-echo $appDir
 
 # Activate the apps python environment.
 & ${appDir}\venv\Scripts\Activate.ps1
