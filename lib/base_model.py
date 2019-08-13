@@ -301,6 +301,10 @@ class BaseModel(ABC):
         * 2 == SEL
         * 4 == GDR (I/Q)
 
+        A single cavity may be bypassed by operations to alleviate performance problems.  In the situation the rest of
+        the zone is working normally and is considered to produce valid data for modeling purposes.  Only the control
+        modes of the non-bypassed cavities will be considered for invalidating the data.
+
             Args:
                 mode (int):  The mode number associated with the proper control mode.
                 offset (float): The number of seconds before the fault event the mode setting should be checked.
@@ -313,13 +317,55 @@ class BaseModel(ABC):
         """
 
         # The R???CNTL2MODE PV is a float, treated like a bitword.  GDR (I/Q) mode corresponds to a value of 4.
-        pv_template = '{}CNTL2MODE'
+        mode_template = '{}CNTL2MODE'
+
+        # "Newer" C100 bypass control.  It's a bitword that represents the bypass status of all cavities
+        bypassed_template = '{}XMOUT'
+
+        # Still need to check if GSET == 0 since this is how many operators "bypass" a cavity, at least historically.
+        gset_template = '{}GSET'
+
+        # Check these PVs just before the fault, since they may have changed in response to the fault
         datetime = utils.path_to_datetime(self.event_dir) + timedelta(seconds=offset)
+
+        # We need the zone to check the bypass bitword that has bit 0-7 corresponding to cavity 1-8
+        for filename in os.listdir(self.event_dir):
+            if not self.is_capture_file(filename):
+                continue
+            zone = filename[0:3]
+            break
+
+        # Get the bypassed bitword.  Check each cavity's status in the loop below.
+        bypassed = None
+        try:
+            bypassed = mya.get_pv_value(PV=bypassed_template.format(zone), datetime=datetime, deployment='ops')
+        except ValueError:
+            # Do nothing here as this bypassed flag was not always archived.  Faults prior to Fall 2019 may predate
+            # archival of the R...MOUT PVs
+            pass
+
+        # Switch to binary string.  "08b" means include leading zeros ("0"), have eight bits ("8"), and format string as
+        # binary number ("b").  The [::-1] is an extended slice that says to step along the characters in reverse.
+        # The reversal puts the bits in cavity order - bit_0 -> cav_1, bit_1 -> cav_2, ...
+        bypassed_bits = format(0, "08b")
+        if bypassed is not None:
+            bypassed_bits = format(bypassed, "08b")[::-1]
 
         for filename in os.listdir(self.event_dir):
             if self.is_capture_file(filename):
                 cav = filename[0:4]
-                pv = pv_template.format(cav)
-                val = mya.get_pv_value(PV=pv, datetime=datetime, deployment='ops')
+
+                # Check if the cavity was gset == 0.  Ops meant to bypass this if so, and we don't care about it's
+                # control mode
+                gset = mya.get_pv_value(PV=gset_template.format(cav), datetime=datetime, deployment='ops')
+                if gset == 0:
+                    next()
+
+                # Check if the cavity was formally bypassed.  bypassed_bits is zero indexed, while cavities are one
+                # indexed.  1 is bypassed, 0 is not
+                if bypassed_bits[int(cav[3]) - 1] == 0:
+                    next()
+
+                val = mya.get_pv_value(PV=mode_template.format(cav), datetime=datetime, deployment='ops')
                 if val != mode:
                     raise ValueError("Cavity '" + cav + "' not in GDR mode.  Mode = " + str(val))
