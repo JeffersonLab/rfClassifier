@@ -1,9 +1,8 @@
 import os
-import importlib
-import pkgutil
 import argparse
+import platform
 import re
-
+import subprocess
 import yaml
 import sys
 import json
@@ -14,40 +13,9 @@ app_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)
 name = 'rf_classifier'
 """Short name of application associated with executable file"""
 
-version = "0.1"
+version = "0.2"
 """Application version string"""
 
-
-def insert_model_syspath(model_name, model_dir=os.path.join(app_dir, 'models')):
-    """Convenience function for including a model's virtualenv library in the application sys.path
-
-    Note: Use pop_model_syspath() to undo.  Do not make any additional changes to the path before calling
-          pop_model_syspath() as it's implementation may be very naive.
-    Args:
-        model_name (str): The name of the model.  Should match the name on the model package directory
-        model_dir (str): The directory path to the models directory. Should be the parent of the model package directory
-
-    Returns:
-        None
-    """
-    sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'site-packages'))
-    sys.path.insert(0, os.path.join(model_dir, model_name, 'venv', 'lib', 'python3.6', 'site-packages'))
-    sys.path.insert(0, os.path.join(model_dir, model_name))
-
-def pop_model_syspath():
-    """Convenience function for removing a model's directories from sys.path that were added via insert_model_syspath
-
-    Returns:
-        None
-    """
-
-    # The current insert_model_syspath merely adds two directories to the front of sys.path.  pop(0) removes the first
-    # element.  This simple approach is sufficient for our use case where we add a path, run some model code, then
-    # remove it immediately.  Any thing more complex than that would require that the path be searched, etc. but trying
-    # to match paths based on model names risks removing the wrong entries and is not needed.
-    sys.path.pop(0)
-    sys.path.pop(0)
-    sys.path.pop(0)
 
 def parse_config_file(filename=os.path.join(app_dir, 'cfg', 'config.yaml')):
     """Parses a JSON formatted config file and while supplying some defaults
@@ -87,12 +55,12 @@ def parse_config_file(filename=os.path.join(app_dir, 'cfg', 'config.yaml')):
 def print_brief_description(desc, is_default=False):
     """Prints out a model description in a brief format.
 
-        Args:
-            desc (dict): A dictionary containing the description of a model.
-            is_default (bool): Is this model currently the default model for the application
+    Args:
+        desc (dict): A dictionary containing the description of a model.
+        is_default (bool): Is this model currently the default model for the application
 
-        Returns:
-            None: The model description is printed to standard out.
+    Returns:
+        None: The model description is printed to standard out.
     """
     model_id = desc['id']
     if is_default:
@@ -106,12 +74,12 @@ def print_brief_description(desc, is_default=False):
 def print_detailed_description(desc, is_default=False):
     """Prints out a model description in a detailed format.
 
-        Args:
-            desc (dict): A dictionary containing the description of a model.
-            is_default (bool): Is this model currently the default model for the application
+    Args:
+        desc (dict): A dictionary containing the description of a model.
+        is_default (bool): Is this model currently the default model for the application
 
-        Returns:
-            None: The model description is printed to standard out.
+    Returns:
+        None: The model description is printed to standard out.
     """
     model_id = desc['id']
     if is_default:
@@ -121,6 +89,66 @@ def print_detailed_description(desc, is_default=False):
                  + "  Fault Labels:  {}" + os.linesep + "  Brief:         {}" + os.linesep + "  Details:{}"
     print(fmt_string.format(model_id, desc['releaseDate'], desc['cavLabels'], desc['faultLabels'], desc['brief'],
                             desc['details']))
+
+
+def run_model(model_name, config, args=[]):
+    """Runs the specified model with the supplied arguments.  Model location dictated by config['model_dir'].
+
+    Note: This will print error messages returned by the model.
+
+    Args:
+        model_name (str): The name of the model to run.  Same as model's ID or directory name on the filesystem
+        config (dict): The application's configuration dictionary
+        args (list:str): The arguments to be passed to the model.  Should be valid paths to event directories.
+    Returns:
+        dict|None:  Returns dictionary of results representing the JSON out of the model or None if there was a
+            problem during execution.
+    """
+
+    if platform.system() == "Linux":
+        call = [os.path.join(config['model_dir'], model_name, 'bin', 'model.bash')]
+    elif platform.system() == "Windows":
+        call = ['powershell', os.path.join(config['model_dir'], model_name, 'bin', 'model.ps1')]
+
+    # Model script should return JSON output needed for description
+    call.extend(args)
+    response = subprocess.run(call, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    if response.stderr != b'':
+        print(response.stderr)
+    if response.returncode != 0:
+        print("{} exited with exit code '{}'".format(model_name, response.returncode))
+        return None
+    else:
+        return json.loads(response.stdout)
+
+
+def print_model_description(model_name, config, verbose, is_default):
+    """Function for reading and print a model's description based on it's description.yaml file.
+
+    Args:
+        model_name (str): The name of the model.  Equivalent to it's ID and directory name on the filesystem
+        config (dict): The config object for this application
+        verbose (bool): Whether to print out the detailed information of the model
+        is_default (bool): Is this the default model for the application
+
+    Returns:
+        None:  Prints out description or relevant error messages.
+    """
+
+    desc_file = os.path.join(config['model_dir'], model_name, "description.yaml")
+    if os.path.exists(desc_file):
+        with open(desc_file, "r") as f:
+            desc = yaml.safe_load(f.read())
+            if desc is None:
+                print("{} - error getting description".format(f))
+            else:
+                if verbose:
+                    print_detailed_description(desc, is_default)
+                else:
+                    print_brief_description(desc, is_default)
+    else:
+        print("{} - description.yaml not found".format(model_name))
 
 
 def list_models(config, model=None, verbose=False):
@@ -140,76 +168,35 @@ def list_models(config, model=None, verbose=False):
     """
 
     default_model = config['default_model']
-    sys.path.insert(0, os.path.join(config['model_dir']))
-    models = importlib.import_module("models", config['model_dir'])
-    base_pattern = re.compile('^base_model')
 
     # If the query was for a specific model, print more info by default
-    if model is not None and model != 'base_model':
-        try:
-            insert_model_syspath(model)
-            mod = importlib.import_module("models.%s.model" % model)
-            pop_model_syspath()
-        except Exception as ex:
-            print("Error importing model - {}: {}".format(ex.__class__.__name__, ex))
-            return
-
-        desc = mod.Model.describe()
-        if verbose:
-            print_detailed_description(desc, desc['id'] == default_model)
+    if model is not None:
+        if os.path.exists(os.path.join(config['model_dir'], model)):
+            print_model_description(model_name=model, config=config, verbose=verbose,
+                                    is_default=(model == default_model))
         else:
-            print_brief_description(desc, desc['id'] == default_model)
+            print("{} - model not found.".format(model))
 
     # If the query was for all of the models, only print the names by default
     else:
-        for importer, modname, is_package in pkgutil.iter_modules(models.__path__):
-            if is_package:
-                if base_pattern.match(modname):
-                    # Don't list out any of the base_models since a user can't call them directly
-                    continue
-                if not verbose:
-                    if modname == default_model:
-                        model_id = modname + " (default)"
+        dot_pattern = re.compile("\..*")
+        for filename in os.listdir(config['model_dir']):
+            if os.path.isdir(os.path.join(config['model_dir'], filename)):
+                if not dot_pattern.match(filename):
+                    if verbose:
+                        # Verbose is false here since a detailed listing of all models could take up too much space
+                        print_model_description(model_name=filename, config=config, verbose=False,
+                                                is_default=(filename == default_model))
                     else:
-                        model_id = modname
-                    print("%s" % model_id)
-                else:
-                    try:
-                        insert_model_syspath(modname)
-                        mod = importlib.import_module(".%s.%s" % (modname, "model"), 'models')
-                        pop_model_syspath()
-                        desc = mod.Model.describe()
-                        print_brief_description(desc, modname == default_model)
-                        print()
-                    except Exception as ex:
-                        print("{}: Error accessing info - {}: {}".format(modname, ex.__class__.__name__, ex))
-
-
-def analyze_event(event_dir, config):
-    """Loads the model specified by config['model'] and uses it to analyze the given event_dir.
-
-    Args:
-        event_dir (str): The path to the fault event directory to be analyzed config.
-        config (dict): The configuration dictionary specifying the external config directory and which model to load.
-
-    Returns:
-         dict:  A dictionary containing the results of the analysis.  Should meet the pluggable model API.
-    """
-    sys.path.insert(0, os.path.join(config['model_dir']))
-    try:
-        mod = importlib.import_module("models.%s.model" % (config['model']))
-    except Exception as ex:
-        print("Error loading model: {}".format(ex))
-        exit(1)
-    model = mod.Model(event_dir)
-    return model.analyze()
+                        print(filename)
 
 
 def print_results_table(results, config, header=True):
     """Prints the analysis results in a human readable table.
 
     Args:
-        results (dict): The dictionary contain the results of an analysis.  Should meet the pluggable model API.
+        results (dict): The dictionary contain the results of an analysis.  Should 'data' value from the pluggable model
+            API.
         config (dict): The configuration dictionary specifying which model was used in the analysis.
         header (bool): Should a header line be printed.  (Default true).
 
@@ -222,15 +209,16 @@ def print_results_table(results, config, header=True):
     if header:
         print(fmt.format("Cavity", "Fault", "Zone", "Timestamp", "Model", "Cav-Conf", "Fault-Conf"))
 
-    print(fmt.format(
-        results['cavity-label'],
-        results['fault-label'],
-        results['location'],
-        results['timestamp'],
-        config['model'],
-        str(round(results['cavity-confidence'], 2)) if results['cavity-confidence'] is not None else "N/A",
-        str(round(results['fault-confidence'], 2)) if results['fault-confidence'] is not None else "N/A",
-    ))
+    for result in results:
+        print(fmt.format(
+            result['cavity-label'],
+            result['fault-label'],
+            result['location'],
+            result['timestamp'],
+            config['model'],
+            str(round(result['cavity-confidence'], 2)) if result['cavity-confidence'] is not None else "N/A",
+            str(round(result['fault-confidence'], 2)) if result['fault-confidence'] is not None else "N/A",
+        ))
 
 
 if __name__ == "__main__":
@@ -257,6 +245,8 @@ if __name__ == "__main__":
                                 default=None, dest='model')
     analyze_parser.add_argument("-o", "--output", help="Specify the output format (default: table)",
                                 default="table", dest='output')
+    analyze_parser.add_argument("-n", "--no-header", help="Do not include a header in the output (only for -o=table)",
+                                default=False, dest='no_header', action='store_true')
     analyze_parser.add_argument("events", nargs='+', help="The path to the fault event directory", default=None)
 
     # Parse command line arguments.  Print out the certified name/version if none is specified
@@ -279,34 +269,29 @@ if __name__ == "__main__":
     if args.subparser_name == "list_models":
         list_models(cfg, args.model, args.verbose)
 
+    # We're going to analyze some events
     if args.subparser_name == "analyze":
+
+        # Setup the model in the config object
         if args.model is not None:
             cfg['model'] = args.model
         if cfg['model'] is None:
             print("Error: No default model supplied in config file or on command line.")
             exit(1)
 
-        # Load the add the venv package directoy of the specificed model into sys.path
-        insert_model_syspath(cfg['model'])
-        exit_val = 0
-        out = []
-        for event in args.events:
-            try:
-                result = analyze_event(event, cfg)
-                out.append(result)
-            except Exception as ex:
-                exit_val += 1
-                print("Error analyzing " + event)
-                print("  " + ex.__class__.__name__ + ": " + str(ex))
-
-        if args.output == "json":
-            print(json.dumps(out, indent=2))
+        # Call the appropriate model and get the results
+        results = run_model(cfg['model'], cfg, args.events)
+        # None implies that the model had some sort of a problem
+        if results is None:
+            exit(1)
         else:
-            header = True
-            for result in out:
-                print_results_table(result, cfg, header=header)
-                header = False
-        # Remove the model's venv, etc. from sys.path
-        pop_model_syspath()
-
-        exit(exit_val)
+            if args.output == "json":
+                # The model does not include it's name on the response.  Add it to each result.
+                for i in range(0, len(results['data'])):
+                    results['data'][i]['model'] = cfg['model']
+                # A dictionary prints out _VERY_ similarly to JSON, but maybe not exactly.  Just use the json.dump.
+                print(json.dumps(results))
+            else:
+                # If the user doesn't request a support format print out a table
+                print_results_table(results['data'], cfg, header=(not args.no_header))
+        exit(0)
