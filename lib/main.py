@@ -205,7 +205,7 @@ def print_results_table(results, config, header=True):
     """
 
     # Cavity Fault Zone Timestamp Model Cav-Conf Fault-Conf
-    fmt = "{:17s} {:17s} {:12s} {:22s} {:20s} {:10s} {:10s}"
+    fmt = "{:10s} {:19s} {:8s} {:22s} {:20s} {:8s} {:8s}"
     if header:
         print(fmt.format("Cavity", "Fault", "Zone", "Timestamp", "Model", "Cav-Conf", "Fault-Conf"))
 
