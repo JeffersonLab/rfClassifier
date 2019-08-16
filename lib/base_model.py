@@ -359,12 +359,12 @@ class BaseModel(ABC):
                 # control mode
                 gset = mya.get_pv_value(PV=gset_template.format(cav), datetime=datetime, deployment='ops')
                 if gset == 0:
-                    next()
+                    continue
 
                 # Check if the cavity was formally bypassed.  bypassed_bits is zero indexed, while cavities are one
                 # indexed.  1 is bypassed, 0 is not
                 if bypassed_bits[int(cav[3]) - 1] == 0:
-                    next()
+                    continue
 
                 val = mya.get_pv_value(PV=mode_template.format(cav), datetime=datetime, deployment='ops')
                 if val != mode:
