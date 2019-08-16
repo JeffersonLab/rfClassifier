@@ -32,32 +32,6 @@ class BaseModel(ABC):
         self.event_dir = event_dir
         self.event_df = None
 
-    @staticmethod
-    @abstractmethod
-    def describe():
-        """A method that provides information about the model package.
-
-            Returns:
-                dict: A dictionary containing information about the model package.  Detailed key/value information given in the table below.
-
-            +---------------------+------------+-----------------------------------------------------------------+
-            | Key                 | Value Type | Value Descriptions                                              |
-            +=====================+============+=================================================================+
-            | "model-id"          | str        | Unique identifier equivalent to the package name                |
-            +---------------------+------------+-----------------------------------------------------------------+
-            | "release-date"      | str        | Release date of the package                                     |
-            +---------------------+------------+-----------------------------------------------------------------+
-            | "cavity-labels"     | set:str    | Potential cavity labels returned by the model                   |
-            +---------------------+------------+-----------------------------------------------------------------+
-            | "fault-labels"      | set:str    | Potential fault type labels returned by the model               |
-            +---------------------+------------+-----------------------------------------------------------------+
-            | "brief"             | str        | Brief, one-line description of the model                        |
-            +---------------------+------------+-----------------------------------------------------------------+
-            | "details"           | str        | Detailed description of the model                               |
-            +---------------------+------------+-----------------------------------------------------------------+
-        """
-        pass
-
     @abstractmethod
     def analyze(self):
         """A method that performs some analysis and classifies the fault event by cavity number and fault type.
