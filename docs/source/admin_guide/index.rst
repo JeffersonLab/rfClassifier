@@ -51,11 +51,11 @@ Finally, install any models following the guidance below.  Then rerun the test s
 =====================
 Software Testing
 =====================
-A two scripts have been provided for automated testing of rf_classifier and it's associated models.  On Windows this is
-tester.ps1, and on Linux this is tester.bash.  These unit tests should all be implemented using the unittest module as the testing script relies on unittests's
-autodiscovery feature.  Autodiscovery requires each module must be structured as a valid Python package, i.e., contained
-within a directory having an __init__.py file, and it requires that each test file be named following the test_*.py pattern.
-
+A script has been provided for automated testing of rf_classifier and it's associated models.  On Windows this is
+tester.ps1, and on Linux this is tester.bash.  These unit tests should all be implemented using the unittest module.
+The testing script looks in the module's test directory to discover available tests usings unittest's autodiscovery
+feature.  Files named test_*.py are run as unittests, and directories that are valid packages are descended into during
+the search.
 
 To run all unit tests associated with the application and it's models, simply execute the test script.  For example, on
 Linux::
@@ -70,8 +70,8 @@ First note that all models should be added to github under the name rf_classifie
 the model's unique ID without any version info.  E.g., for my_model_v2_7, <model_name> would be my_model.  This project
 should also be linked from the rf_classifier project.
 
-Adding a model amounts to placing a copy of model python package in the rf_classifier's models directory, creating a
-model-local python virtual environment, installing any of the model's dependencies, and running the model's test files
+Adding a model amounts to placing a copy of the model's application in the rf_classifier's models directory, creating a
+model-local python virtual environment (if needed), installing any of the model's dependencies, and running the model's test files
 via the rf_classifier tester script.
 
 Here's an example for deploying a model from github.com using a Linux terminal.  The model's documentation may also
@@ -79,16 +79,17 @@ include notes on any non-standard steps.  One specific difference that may occur
 example assumes that the model uses Sphinx documentation which must be built after deployment.
 
 First deploy the model into the model directory of the desired version of the application.  The random_forest model
-is available on github and uses Sphinx documentation.::
+is available on github and uses Sphinx documentation.  Also note that versions should be saved as git tags.  Checkout
+the version that matches the version referenced in the directory name.::
 
     cd /cs/certified/apps/rf_classifier/PRO/models
     git clone https://github.com/JeffersonLab/rf_classifier_random_forest random_forest_v0_1
-
-Then create and activate a virtual environment for this package.  The rf_classifier application is designed to look in
-the venv directory for packages this model depends on.  Use the pubtools python 3.6 version to be consistent with the
-base application's interpreter.::
-
     cd random_forest_v0_1
+    git checkout v0_1
+
+Create and activate a virtual environment for this package.  The base application works on Python 3.6, but you can use
+any interpreter since this is a separate application.::
+
     /usr/csite/pubtools/python/3.6/bin/python3 -m venv ./venv
     source venv/bin/activate.csh
 
@@ -96,10 +97,11 @@ Install the package dependencies, assuming the model has specified it's package 
 
     pip3 install -r requirements.txt
 
-If needed, build the model's documentation.  This models uses a simple markdown README, so nothing needs to be done.
+If needed, build the model's documentation.  This models uses a markdown-based README.md, so nothing needs to be done.
 
 Run the model's test code.  The easiest way is to run the application's tester.bash script and verify that the model's
-tests appear and all are passed.::
+tests appear and all are passed.  While the models shouldn't require anything more than this, it's always prudent to
+check their documentation.::
 
     cd /cs/certified/apps/rf_classifier/PRO/tests
     bash ./tester.bash
@@ -114,7 +116,7 @@ below tables gives accepted configuration options and their information.
 =============  ================= ==============
 Option         Default Value     Description
 =============  ================= ==============
-models_dir     <app_dir>/models  Directory containing model packages
+model_dir      <app_dir>/models  Directory containing model packages
 default_model  None              Name of the model to use in analyzing an event
 =============  ================= ==============
 
