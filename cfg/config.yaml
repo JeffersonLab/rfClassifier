@@ -1,4 +1,4 @@
 ---
 # The directory containing models to be used by rf_classifier
-model_dir: 'C:\Users\adamc\code\rf_classifier\models'
+models_dir: 'C:\Users\adamc\code\rf_classifier\models'
 default_model: "random_forest_v0_1"
