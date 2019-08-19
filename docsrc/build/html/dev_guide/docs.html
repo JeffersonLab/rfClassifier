@@ -173,62 +173,33 @@
 </div>
 <div class="section" id="first-steps">
 <h2>First steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
-<p>Here we make two local copies of the project.  One will contain the master branch for which we want to generate the documentation.  The other will contain the pared down gh-pages branch that contains only the HTML documentation.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">some</span><span class="o">/</span><span class="n">where</span><span class="o">/</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">JeffersonLab</span><span class="o">/</span><span class="n">rf_classifier</span> <span class="n">rf_classifier</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">JeffersonLab</span><span class="o">/</span><span class="n">rf_classifier</span> <span class="n">rf_classifier</span><span class="o">-</span><span class="n">docs</span>
-</pre></div>
-</div>
-<p>In the master branch directory, complete the software installation as described in the Admin Guide.  Shorthand procedure is as follows.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">rf_classifier</span>
-<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">csite</span><span class="o">/</span><span class="n">pubtools</span><span class="o">/</span><span class="n">python</span><span class="o">/</span><span class="mf">3.6</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="o">./</span><span class="n">venv</span>
-<span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span><span class="o">.</span><span class="n">csh</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">tester</span><span class="o">.</span><span class="n">bash</span>
-</pre></div>
-</div>
-<p>In the master branch directory, make the desired changes to the documentation, generate the HTML, and examine the output as needed.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">docs</span>
-<span class="n">make</span> <span class="n">html</span>
-<span class="n">firefox</span> <span class="n">build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
-</pre></div>
-</div>
-<p>Commit and push back the final changes so the documentation sources are situated within the master branch on the remote server.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">commit</span>
-<span class="n">git</span> <span class="n">push</span>
-</pre></div>
-</div>
-<p>Switch gears to work with the gh-pages branch directory.  The first time this procedure was performed, we had to create an empty, orphaned branch (parallel branch not tied to the project/master branch).  Here is how that is accomplished.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">some</span><span class="o">/</span><span class="n">where</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">-</span><span class="n">docs</span>
-<span class="n">git</span> <span class="n">checkout</span> <span class="o">--</span><span class="n">orphan</span> <span class="n">gh</span><span class="o">-</span><span class="n">pages</span>
-</pre></div>
-</div>
-<p>After creating the orphaned branch, add remote branch information so you can push to the remote server later.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vi</span> <span class="o">.</span><span class="n">git</span><span class="o">/</span><span class="n">config</span>
+<p>In the past, GitHub pages work by using a special git branch to contain your documentation.  Currently, GitHub lets you create a special directory, docs/, on the master branch in the root of your project, that is parse to present your documentation on a github.io webpage.  Place all Sphinx documentation under /docsrc/ and create a /docs/ directory.  In the /docs/ directory create a .nojekyll file in /docs/.  This file tells GitHub that this is not a Jekyll-based documentation project (e.g., don’t ignore files and directories starting with ‘_’).:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># If you haven&#39;t made your documentation yet, create the directory and do the sphinx-quickstart process</span>
+<span class="n">mkdir</span> <span class="o">/</span><span class="n">docsrc</span>
 <span class="o">...</span>
-<span class="p">[</span><span class="n">branch</span> <span class="s2">&quot;gh-pages&quot;</span><span class="p">]</span>
-    <span class="n">remote</span> <span class="o">=</span> <span class="n">origin</span>
-    <span class="n">merge</span> <span class="o">=</span> <span class="n">refs</span><span class="o">/</span><span class="n">heads</span><span class="o">/</span><span class="n">gh</span><span class="o">-</span><span class="n">pages</span>
+
+<span class="n">mkdir</span> <span class="o">/</span><span class="n">docs</span>
+<span class="n">touch</span> <span class="o">/</span><span class="n">docs</span><span class="o">/.</span><span class="n">nojekyll</span>
 </pre></div>
 </div>
-<p>No matter what, you’ll want to clear out the branch contents as they are either the old documentation or the full project.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do a dry run to ensure we aren&#39;t deleting something unexpected.</span>
-<span class="c1"># This should clear out the project files.</span>
-<span class="n">git</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">--</span><span class="n">dry</span><span class="o">-</span><span class="n">run</span> <span class="o">.</span>
-<span class="n">git</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">.</span>
+<p>For convenience, add this new github /docsrc/Makefile if it doesn’t already exist.  This creates the documentation and then copies it to the /docs/ folder.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vi</span> <span class="o">/</span><span class="n">docsrc</span><span class="o">/</span><span class="n">Makefile</span>
+<span class="n">git</span><span class="p">:</span>
+    <span class="nd">@make</span> <span class="n">html</span>
+    <span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="n">build</span><span class="o">/</span><span class="n">html</span><span class="o">/.</span> <span class="o">../</span><span class="n">docs</span>
 </pre></div>
 </div>
-<p>Copy over the new documentation built in the master branch directory.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">../</span><span class="n">rf_classifier</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">html</span><span class="o">/*</span> <span class="o">.</span>
-<span class="n">git</span> <span class="n">add</span> <span class="o">*</span>
-</pre></div>
-</div>
-<p>Create an empty .nojykell file to inform GitHub Pages that we aren’t using their Jekyll format and all of our content should be treated as though it were part of a website.  Failing to include a .nojekyll will cause the _static directory containing CSS and JS files to be ignored by github.io.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">touch</span> <span class="o">.</span><span class="n">nojekyll</span>
-</pre></div>
-</div>
-<p>Commit the changes to gh-branch and push back to the origin (github.com).:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span><span class="s2">&quot;I made some changes to the documentation!!&quot;</span>
+<p>Now make any changes to your documentation source, then build the documentation using the github target.  Commit and push the changes backup to the GitHub remote.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">docsource</span>
+<span class="n">vi</span> <span class="o">...</span>
+<span class="n">make</span> <span class="n">github</span>
+<span class="n">cd</span> <span class="o">..</span>
+
+<span class="c1"># Optionally inspect the updates</span>
+<span class="n">firefox</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">remote</span> <span class="n">docs</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
+
+<span class="n">git</span> <span class="n">add</span> <span class="n">docs</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span><span class="s2">&quot;&lt;some message&gt;&quot;</span>
 <span class="n">git</span> <span class="n">push</span>
 </pre></div>
 </div>
