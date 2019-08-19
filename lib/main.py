@@ -32,7 +32,7 @@ def parse_config_file(filename=os.path.join(app_dir, 'cfg', 'config.yaml')):
 
     # Default values for the config file
     default = {
-        'models_dir': os.path.join('cs','certified', 'apps', name, version, 'models'),
+        'models_dir': os.path.join(app_dir, 'models'),
         'default_model': None
     }
 
