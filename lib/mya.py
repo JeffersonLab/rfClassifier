@@ -72,4 +72,10 @@ def get_pv_value(PV, datetime, deployment='ops'):
     if 'error' in json.keys():
         raise ValueError("Received error response - {}".format(json['error']))
 
-    return json['data']['v']
+    # Possible that there is no data for the time queried (e.g., the time is before we started archiving that PV)
+    out = None
+    data = json['data']
+    if 'v' in data.keys():
+        out = data['v']
+
+    return out

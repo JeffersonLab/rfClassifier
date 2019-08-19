@@ -13,32 +13,24 @@ accommodate this reality, rf_classifier is designed around "pluggable" models.
 =================================
 Purpose
 =================================
-These pluggable models are essentially independent Python packages each containing all of the logic required for an
+Pluggable models are independent Python application each containing all of the logic required for the parsing and
 analysis of the data associated with an RF fault event.  Each package must have it's own documentation, test suite, and
-supply it's own package dependencies.  In addition, each model package must implement a class named **Model** that
-inherits from an abstract base class, BaseModel, implement in this base_model module.  This defines the generic
-interface that rf_classifer uses to interact with the models and allows for a separation of the application's other
-concerns (command line interface, external software integration, etc.).  Importantly, this allows for separate development
-efforts on both the model and application components to occur simultaneously with little interference or coordination.
+supply it's own package dependencies.  Each model must return output to STDOUT in JSON format as mentioned in the developer
+guide.  Since every model will need to perform a number of similar steps (e.g., data parsing or validation), the rf_classifier
+application contains python modules that can be linked to or copied and modified within a model application.
 
 =================================
 Structure
 =================================
-The purpose of this documentation is to define the model interface to rf_classifier.  The interface itself is simple.
-Inherit from a specific class and define two methods, describe() and analyze().
+The purpose of this documentation is to provide reference documentation for the extra modules provided by rf_classifier.
+The base_model module contains the various helper functions, and has two major components of which to be aware.
 
 :class:`base_model.BaseModel`
     Abstract base class defining the model interface
-:meth:`base_model.BaseModel.describe`
-    Returns information about the model
 :meth:`base_model.BaseModel.analyze`
     Performs the analysis and returns its results
 
-More detailed information is given in the base_model module documentation.
-
-In addition to defining an interface through the base_model module, this application also provides a number of concrete
-methods which should aid in parsing and validating RF fault event waveform data.  These additional functions are spread
-across the base_model, mya, and utils modules.
+More detailed information is given in the base_model, mya, and utils module documentation.
 
 base_model
   Contains the BaseModel class definition and all model related methods such as parsing or validating waveform data
