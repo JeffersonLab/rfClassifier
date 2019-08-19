@@ -11,7 +11,7 @@ class TestMain(TestCase):
         # Test that a basic use case without a default model works
         exp = {
             "some_key": "some_value",
-            "models_dir": "/some/junk/dir",
+            "model_dir": "/some/junk/dir",
             "default_model": None,
             "model": None
         }
@@ -21,7 +21,7 @@ class TestMain(TestCase):
         # Test that a basic use case without an external configuration directory gets the default
         exp = {
             "some_key": "some_value",
-            "models_dir": os.path.join('cs','certified', 'apps', "rf_classifier", "0.1", 'models'),
+            "model_dir": os.path.join('cs','certified', 'apps', "rf_classifier", "0.1", 'models'),
             "default_model": "my_test_model",
             'model': "my_test_model"
         }
