@@ -116,7 +116,7 @@ below tables gives accepted configuration options and their information.
 =============  ================= ==============
 Option         Default Value     Description
 =============  ================= ==============
-model_dir      <app_dir>/models  Directory containing model packages
+models_dir     <app_dir>/models  Directory containing model packages
 default_model  None              Name of the model to use in analyzing an event
 =============  ================= ==============
 
