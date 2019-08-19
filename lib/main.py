@@ -67,8 +67,9 @@ def print_brief_description(desc, is_default=False):
         model_id += " (default)"
 
     fmt_string = "{}" + os.linesep + "  Release Date:  {}" + os.linesep + "  Cavity Labels: {}" + os.linesep \
-                 + "  Fault Labels:  {}" + os.linesep + "  Brief:         {}"
-    print(fmt_string.format(model_id, desc['releaseDate'], desc['cavLabels'], desc['faultLabels'], desc['brief']))
+                 + "  Fault Labels:  {}" + os.linesep + "  Training Data: {}" + os.linesep + "  Brief:         {}"
+    print(fmt_string.format(model_id, desc['releaseDate'], desc['cavityLabels'], desc['faultLabels'],
+                            desc['trainingData'], desc['brief']))
 
 
 def print_detailed_description(desc, is_default=False):
@@ -86,9 +87,10 @@ def print_detailed_description(desc, is_default=False):
         model_id += " (default)"
 
     fmt_string = "{}" + os.linesep + "  Release Date:  {}" + os.linesep + "  Cavity Labels: {}" + os.linesep \
-                 + "  Fault Labels:  {}" + os.linesep + "  Brief:         {}" + os.linesep + "  Details:{}"
-    print(fmt_string.format(model_id, desc['releaseDate'], desc['cavLabels'], desc['faultLabels'], desc['brief'],
-                            desc['details']))
+                 + "  Fault Labels:  {}" + os.linesep + "  Training Data: {}" + os.linesep + "  Brief:         {}"\
+                 + os.linesep + "  Details:{}"
+    print(fmt_string.format(model_id, desc['releaseDate'], desc['cavityLabels'], desc['faultLabels'],
+                            desc['trainingData'], desc['brief'], desc['details']))
 
 
 def run_model(model_name, config, args=[]):
