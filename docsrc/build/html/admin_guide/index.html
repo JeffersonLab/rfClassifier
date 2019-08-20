@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Admin Guide &mdash; rf_classifier 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rf_classifier Developer Guide" href="../dev_guide/index.html" />
+    <link rel="prev" title="rf_classifier User Guide" href="../user_guide/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> rf_classifier
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Admin Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#software-testing">Software Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-a-model">Installing A Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-configuration">Application Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-application">Running the Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/index.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/api/index.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rf_classifier</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Admin Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/admin_guide/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="admin-guide">
+<h1>Admin Guide<a class="headerlink" href="#admin-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This guide is intended to document common steps needed to test and reconfigure the rf_classifier application.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>This software is maintained on github at <a class="reference external" href="https://github.com/JeffersonLab/rf_classifier">https://github.com/JeffersonLab/rf_classifier</a>.  It was developed against
+Python 3.6 using a virtual environment, and it provides a requirements.txt file that can be used to “pip install”
+it’s package dependencies.  Additionally this documentation is produced using Sphinx.  Once the application is
+installed, it’s virtual environment created, it’s packages installed, and documentation is created, the admin user
+should install any available models.  To install this software from github.com to an Accelerator Linux system:</p>
+<p>First download the software from github.com to the desired location.  All versions are kept as tags.  Checkout the desired
+version after download the git repository.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">installation</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">JeffersonLab</span><span class="o">/</span><span class="n">rf_classifier</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">l</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">version</span><span class="o">-</span><span class="n">tag</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Then create the python virtual environment based on the pubtools python 3.6 version.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">csite</span><span class="o">/</span><span class="n">pubtools</span><span class="o">/</span><span class="n">python</span><span class="o">/</span><span class="mf">3.6</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="o">./</span><span class="n">venv</span>
+</pre></div>
+</div>
+<p>Activate the virtual environment and install required packages.  Source venv/bin/activate for bash shells:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span><span class="o">.</span><span class="n">csh</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>If desired, build the Spinx-based HTML documentation.  Launch Firefox to view them.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">docs</span><span class="o">/</span>
+<span class="n">make</span> <span class="n">html</span>
+<span class="n">firefox</span> <span class="n">build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>Run the application’s test suite.  No models have been installed so this will be a quick test of the base code.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">../</span><span class="n">tests</span>
+<span class="n">bash</span> <span class="o">./</span><span class="n">tester</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>Finally, install any models following the guidance below.  Then rerun the test script.</p>
+</div>
+<div class="section" id="software-testing">
+<h2>Software Testing<a class="headerlink" href="#software-testing" title="Permalink to this headline">¶</a></h2>
+<p>A script has been provided for automated testing of rf_classifier and it’s associated models.  On Windows this is
+tester.ps1, and on Linux this is tester.bash.  These unit tests should all be implemented using the unittest module.
+The testing script looks in the module’s test directory to discover available tests usings unittest’s autodiscovery
+feature.  Files named test_*.py are run as unittests, and directories that are valid packages are descended into during
+the search.</p>
+<p>To run all unit tests associated with the application and it’s models, simply execute the test script.  For example, on
+Linux:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/</span><span class="n">PRO</span><span class="o">/</span><span class="n">test</span>
+<span class="n">bash</span> <span class="o">./</span><span class="n">tester</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-a-model">
+<h2>Installing A Model<a class="headerlink" href="#installing-a-model" title="Permalink to this headline">¶</a></h2>
+<p>First note that all models should be added to github under the name rf_classifier_&lt;model_name&gt;, where &lt;model_name&gt; is
+the model’s unique ID without any version info.  E.g., for my_model_v2_7, &lt;model_name&gt; would be my_model.  This project
+should also be linked from the rf_classifier project.</p>
+<p>Adding a model amounts to placing a copy of the model’s application in the rf_classifier’s models directory, creating a
+model-local python virtual environment (if needed), installing any of the model’s dependencies, and running the model’s test files
+via the rf_classifier tester script.</p>
+<p>Here’s an example for deploying a model from github.com using a Linux terminal.  The model’s documentation may also
+include notes on any non-standard steps.  One specific difference that may occur is in creating documentation.  This
+example assumes that the model uses Sphinx documentation which must be built after deployment.</p>
+<p>First deploy the model into the model directory of the desired version of the application.  The random_forest model
+is available on github and uses Sphinx documentation.  Also note that versions should be saved as git tags.  Checkout
+the version that matches the version referenced in the directory name.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/</span><span class="n">PRO</span><span class="o">/</span><span class="n">models</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">JeffersonLab</span><span class="o">/</span><span class="n">rf_classifier_random_forest</span> <span class="n">random_forest_v0_1</span>
+<span class="n">cd</span> <span class="n">random_forest_v0_1</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="n">v0_1</span>
+</pre></div>
+</div>
+<p>Create and activate a virtual environment for this package.  The base application works on Python 3.6, but you can use
+any interpreter since this is a separate application.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">csite</span><span class="o">/</span><span class="n">pubtools</span><span class="o">/</span><span class="n">python</span><span class="o">/</span><span class="mf">3.6</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="o">./</span><span class="n">venv</span>
+<span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span><span class="o">.</span><span class="n">csh</span>
+</pre></div>
+</div>
+<p>Install the package dependencies, assuming the model has specified it’s package requirements in requirements.txt.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>If needed, build the model’s documentation.  This models uses a markdown-based README.md, so nothing needs to be done.</p>
+<p>Run the model’s test code.  The easiest way is to run the application’s tester.bash script and verify that the model’s
+tests appear and all are passed.  While the models shouldn’t require anything more than this, it’s always prudent to
+check their documentation.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/</span><span class="n">PRO</span><span class="o">/</span><span class="n">tests</span>
+<span class="n">bash</span> <span class="o">./</span><span class="n">tester</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="application-configuration">
+<h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Permalink to this headline">¶</a></h2>
+<p>rf_classifier reads configuration settings from a YAML formatted configuration file.  The location of this file is
+configurable, but the application attempts to read cfg/config.yaml from the application directory by default.  The
+below tables gives accepted configuration options and their information.</p>
+<table border="1" class="docutils align-default">
+<colgroup>
+<col width="17%" />
+<col width="22%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Default Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>model_dir</td>
+<td>&lt;app_dir&gt;/models</td>
+<td>Directory containing model packages</td>
+</tr>
+<tr class="row-odd"><td>default_model</td>
+<td>None</td>
+<td>Name of the model to use in analyzing an event</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="running-the-application">
+<h2>Running the Application<a class="headerlink" href="#running-the-application" title="Permalink to this headline">¶</a></h2>
+<p>This project has launcher scripts for running the application from Linux and Windows.  These scripts setup the Python
+environment and call main.py with an specified arguments.</p>
+<p>On Linux, use the following bash script::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rf_classifier</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>On Windows, use the following PowerShell script::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rf_classifier</span>\<span class="nb">bin</span>\<span class="n">rf_classifier</span><span class="o">.</span><span class="n">ps1</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../dev_guide/index.html" class="btn btn-neutral float-right" title="rf_classifier Developer Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../user_guide/index.html" class="btn btn-neutral float-left" title="rf_classifier User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Adam Carpenter
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
