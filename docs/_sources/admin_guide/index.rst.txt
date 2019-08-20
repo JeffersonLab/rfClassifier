@@ -22,23 +22,25 @@ version after download the git repository.::
 
     cd /path/to/installation
     git clone https://github.com/JeffersonLab/rf_classifier
+	cd rf_classifier
     git tag -l
     git checkout <version-tag>
 
 Then create the python virtual environment based on the pubtools python 3.6 version.::
 
-    /usr/csite/pubtools/python/3.6/bin/python3 -m venv ./venv
+    /usr/csite/pubtools/python/3.6/bin/python3.6 -m venv ./venv
 
 Activate the virtual environment and install required packages.  Source venv/bin/activate for bash shells::
 
     source venv/bin/activate.csh
     pip3 install -r requirements.txt
 
-If desired, build the Spinx-based HTML documentation.  Launch Firefox to view them.::
+If desired, build the Spinx-based HTML documentation.  The github target simply makes the html documentation and copies
+it in the docs folder.  Launch Firefox to view them.::
 
-    cd docs/
-    make html
-    firefox build/html/index.html
+    cd docsrc/
+    make github
+    firefox ../docs/index.html
 
 Run the application's test suite.  No models have been installed so this will be a quick test of the base code.::
 
