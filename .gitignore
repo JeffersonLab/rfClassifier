@@ -2,5 +2,5 @@
 venv/
 .git/
 .idea/
-docs/build/html
-docs/build/doctrees
+docsrc/build/*
+*~
