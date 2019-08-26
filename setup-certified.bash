@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SCRIPT_NAME=$(basename $0)
+export PATH="/usr/csite/pubtools/python/3.6.9/bin:${PATH}"
 
 usage () {
     echo "
@@ -21,25 +22,27 @@ Usage:
 
 build () {
     echo "building - building docs"
-    cd docsrv
+    cd docsrc
     make github
     cd -
 }
 
 test () {
     echo "testing - running unit tests"
-    tests/tester.bash
+    cd tests
+    tester.bash
+    cd -
 }
 
 # This is weird to my sensibilities, but we install by removing unecessary components the git repo
 install () {
-    echo "installing - removing the .git directory"
+    echo "installing - removing the docs directory contents"
 #    rm -rf .git
-    rm -rf docs/*
+    rm -rf ./docs/*
 }
 
 compact () {
-    echo "compacting - removing the .git directory and venv"
+    echo "compacting - removing the docs directory contents"
 #    if [ -d .git ] ; then
 #        rm -rf .git
 #    fi
@@ -47,7 +50,6 @@ compact () {
         rm -rf ./docs/*
     fi
 }
-
 
 if [ $# -ne 1 ] ; then
     usage
