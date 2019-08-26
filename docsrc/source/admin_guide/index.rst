@@ -17,33 +17,34 @@ it's package dependencies.  Additionally this documentation is produced using Sp
 installed, it's virtual environment created, it's packages installed, and documentation is created, the admin user
 should install any available models.  To install this software from github.com to an Accelerator Linux system:
 
-First download the software from github.com to the desired location.  All versions are kept as tags.  Checkout the desired
-version after download the git repository.::
+First download the software from github.com to the desired location.  All versions are kept as tags and can be viewed
+using git tag -l.  Checkout the desired version after download the git repository.::
 
     cd /path/to/installation
     git clone https://github.com/JeffersonLab/rf_classifier
+    cd rf_classifier
     git tag -l
     git checkout <version-tag>
 
-Then create the python virtual environment based on the pubtools python 3.6 version.::
+This application works with the Pubtools Python 3.6.9 installation.  A requirements.txt file is included to help with development or initial installation.
+A setup-certified script is supplied to make installation along certified guidelines more streamlined.
 
-    /usr/csite/pubtools/python/3.6/bin/python3 -m venv ./venv
+If desired, build the Spinx-based HTML documentation.  Additionally, launch Firefox to view them.::
 
-Activate the virtual environment and install required packages.  Source venv/bin/activate for bash shells::
-
-    source venv/bin/activate.csh
-    pip3 install -r requirements.txt
-
-If desired, build the Spinx-based HTML documentation.  Launch Firefox to view them.::
-
-    cd docs/
-    make html
-    firefox build/html/index.html
+    ./setup-certified.bash build
+    firefox ../docs/index.html
 
 Run the application's test suite.  No models have been installed so this will be a quick test of the base code.::
 
-    cd ../tests
-    bash ./tester.bash
+    ./setup-certified.bash test
+
+If you are installing for the certified area the install option will remove everything unnecessary for execution.::
+
+    ./setup-certified.bash install
+
+If you after all of this setup, if you would like to return this to a "reduced" state for certified-style tar.gz retention.::
+
+    ./setup-certified.bash compact
 
 Finally, install any models following the guidance below.  Then rerun the test script.
 
@@ -57,11 +58,14 @@ The testing script looks in the module's test directory to discover available te
 feature.  Files named test_*.py are run as unittests, and directories that are valid packages are descended into during
 the search.
 
-To run all unit tests associated with the application and it's models, simply execute the test script.  For example, on
-Linux::
+To run all unit tests associated with the application and it's models, simply execute the test script.::
 
     cd /cs/certified/apps/rf_classifier/PRO/test
-    bash ./tester.bash
+    ./tester.bash
+
+Alternatively, the setup-certified.bash script can be used to run the tester.bash script as well.::
+
+    ./setup-certified.bash test
 
 =====================
 Installing A Model
@@ -87,13 +91,13 @@ the version that matches the version referenced in the directory name.::
     cd random_forest_v0_1
     git checkout v0_1
 
-Create and activate a virtual environment for this package.  The base application works on Python 3.6, but you can use
+If needed, create and activate a virtual environment for this model.  The base application works on Python 3.6, but you can use
 any interpreter since this is a separate application.::
 
     /usr/csite/pubtools/python/3.6/bin/python3 -m venv ./venv
     source venv/bin/activate.csh
 
-Install the package dependencies, assuming the model has specified it's package requirements in requirements.txt.::
+If needed, install the package dependencies, assuming the model has specified it's package requirements in requirements.txt.::
 
     pip3 install -r requirements.txt
 
@@ -104,7 +108,7 @@ tests appear and all are passed.  While the models shouldn't require anything mo
 check their documentation.::
 
     cd /cs/certified/apps/rf_classifier/PRO/tests
-    bash ./tester.bash
+    ./tester.bash
 
 ===========================
 Application Configuration
@@ -124,7 +128,7 @@ default_model  None              Name of the model to use in analyzing an event
 Running the Application
 ==========================
 This project has launcher scripts for running the application from Linux and Windows.  These scripts setup the Python
-environment and call main.py with an specified arguments.
+environment and call main.py with an specified arguments.  See the User Guide for more details.
 
 On Linux, use the following bash script:::
 
