@@ -1,4 +1,4 @@
-source ../venv/bin/activate
+export PATH="/usr/csite/pubtools/python/3.6.9/bin:$PATH"
 export PYTHONPATH="../lib:../models:../venv/lib/site-packages"
 
 echo "#"
