@@ -3,6 +3,11 @@
 SCRIPT_NAME=$(basename $0)
 export PATH="/usr/csite/pubtools/python/3.6.9/bin:${PATH}"
 
+if [[ ! -f "./setup-certified.bash" ]] ; then
+    echo "This script must be executed from the directory that contains it"
+    exit 1;
+fi
+
 usage () {
     echo "
 Usage:
@@ -34,18 +39,23 @@ test () {
     cd -
 }
 
-# This is weird to my sensibilities, but we install by removing unecessary components the git repo
+# This is weird to my sensibilities, but we install by removing unnecessary components the git repo
 install () {
-    echo "installing - removing the docs directory contents"
-#    rm -rf .git
-    rm -rf ./docs/*
+    echo "installing - removing the docsrc/, docs/, .git/, tests/ directories and other unneeded files."
+    rm -rf .git/
+    rm -rf ./docs/
+    rm -rf ./docsrc/
+    rm -rf tests/
+    rm requirements.txt
+    rm requirements-certified
+    rm README.md
 }
 
 compact () {
-    echo "compacting - removing the docs directory contents"
-#    if [ -d .git ] ; then
-#        rm -rf .git
-#    fi
+    echo "compacting - removing the docs directory contents and .git directory"
+    if [ -d .git ] ; then
+        rm -rf .git
+    fi
     if [ -d ./docs ] ; then
         rm -rf ./docs/*
     fi
