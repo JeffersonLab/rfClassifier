@@ -177,7 +177,7 @@ def list_models(config, model=None, verbose=False):
             print_model_description(model_name=model, config=config, verbose=verbose,
                                     is_default=(model == default_model))
         else:
-            print("{} - model not found.".format(model))
+            print("Error: model '{}' not found.".format(model))
 
     # If the query was for all of the models, only print the names by default
     else:
@@ -279,6 +279,9 @@ if __name__ == "__main__":
             cfg['model'] = args.model
         if cfg['model'] is None:
             print("Error: No default model supplied in config file or on command line.")
+            exit(1)
+        elif not os.path.exists(cfg['model']):
+            print("Error: model '{}' not found.".format(cfg["model"]))
             exit(1)
 
         # Call the appropriate model and get the results
