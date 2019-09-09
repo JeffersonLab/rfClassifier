@@ -1,3 +1,5 @@
+.. _certified-install:
+
 ++++++++++++++++++++++++
 Certified Install Guide
 ++++++++++++++++++++++++
@@ -24,7 +26,7 @@ github, checkout the version, create a gzipped tarball of the source.::
 Now email this version tarball to the SQAM aka Chris Slominski.
 
 =====================================
-SQAM Guide Application Install Guide
+SQAM Application Install Guide
 =====================================
 
 Download the tarball to somewhere temporary and unpack it.::
@@ -43,7 +45,7 @@ Run the "test" setup step to test the base application.::
     ./setup-certified.bash test
 
 Now perform the SQAMY duties of copying this documentation to the certified project area.  This means you need to copy
-the entire contents of the docs directory to the projects' certified web directory.::
+the entire contents of the docs directory to the projects' certified web directory.
 
 When that is done, make a copy of this application in the application directory.  Then run the "install" setup step.::
 
