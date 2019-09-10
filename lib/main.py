@@ -280,7 +280,7 @@ if __name__ == "__main__":
         if cfg['model'] is None:
             print("Error: No default model supplied in config file or on command line.")
             exit(1)
-        elif not os.path.exists(cfg['model']):
+        elif not os.path.exists(os.path.join(cfg['models_dir'], cfg['model'])):
             print("Error: model '{}' not found.".format(cfg["model"]))
             exit(1)
 
