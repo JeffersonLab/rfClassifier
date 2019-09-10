@@ -1,6 +1,11 @@
 +++++++++++++++++++++
 Admin Guide
 +++++++++++++++++++++
+.. toctree::
+    :caption: Contents
+    :maxdepth: 1
+
+    Certified Install Guide <certified_install>
 
 =====================
 Overview
@@ -8,9 +13,12 @@ Overview
 
 This guide is intended to document common steps needed to test and reconfigure the rf_classifier application.
 
+
 =====================
-Installation
+Generic Installation
 =====================
+Note: See :ref:`certified-install` for details on installing into CEBAF's certified software repository.
+
 This software is maintained on github at https://github.com/JeffersonLab/rf_classifier.  It was developed against
 Python 3.6 using a virtual environment, and it provides a requirements.txt file that can be used to "pip install"
 it's package dependencies.  Additionally this documentation is produced using Sphinx.  Once the application is
@@ -26,25 +34,25 @@ using git tag -l.  Checkout the desired version after download the git repositor
     git tag -l
     git checkout <version-tag>
 
-This application works with the Pubtools Python 3.6.9 installation.  A requirements.txt file is included to help with development or initial installation.
-A setup-certified script is supplied to make installation along certified guidelines more streamlined.
+This application was developed against Python 3.6.9.  A requirements.txt file is included to help with development or initial installation.
+The setup-certified script is supplied to make installation along certified guidelines more streamlined, but can be ignored for a generic install.
+To create the virtual environment and install dependencies in a Linux/bash environment.:::
+
+    python3.6 -m venv ./venv
+    source venv/bin/activate
+    pip3 install -r requirements.txt
 
 If desired, build the Spinx-based HTML documentation.  Additionally, launch Firefox to view them.::
 
-    ./setup-certified.bash build
+    cd docsrc/
+    make github
     firefox ../docs/index.html
+    cd ..
 
 Run the application's test suite.  No models have been installed so this will be a quick test of the base code.::
 
-    ./setup-certified.bash test
-
-If you are installing for the certified area the install option will remove everything unnecessary for execution.::
-
-    ./setup-certified.bash install
-
-If you after all of this setup, if you would like to return this to a "reduced" state for certified-style tar.gz retention.::
-
-    ./setup-certified.bash compact
+    cd tests
+    ./tester.bash
 
 Finally, install any models following the guidance below.  Then rerun the test script.
 

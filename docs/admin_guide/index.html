@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="rf_classifier Developer Guide" href="../dev_guide/index.html" />
+    <link rel="next" title="Certified Install Guide" href="certified_install.html" />
     <link rel="prev" title="rf_classifier User Guide" href="../user_guide/index.html" /> 
 </head>
 
@@ -85,8 +85,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Admin Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="certified_install.html">Certified Install Guide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generic-installation">Generic Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#software-testing">Software Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-a-model">Installing A Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#application-configuration">Application Configuration</a></li>
@@ -95,6 +96,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../dev_guide/index.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev_guide/api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Links</a></li>
+<li class="toctree-l1"><a class="reference external" href="../audit/#://">Audit</a></li>
 </ul>
 
             
@@ -161,12 +165,19 @@
             
   <div class="section" id="admin-guide">
 <h1>Admin Guide<a class="headerlink" href="#admin-guide" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="certified_install.html">Certified Install Guide</a></li>
+</ul>
+</div>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>This guide is intended to document common steps needed to test and reconfigure the rf_classifier application.</p>
 </div>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="generic-installation">
+<h2>Generic Installation<a class="headerlink" href="#generic-installation" title="Permalink to this headline">¶</a></h2>
+<p>Note: See <a class="reference internal" href="certified_install.html#certified-install"><span class="std std-ref">Certified Install Guide</span></a> for details on installing into CEBAF’s certified software repository.</p>
 <p>This software is maintained on github at <a class="reference external" href="https://github.com/JeffersonLab/rf_classifier">https://github.com/JeffersonLab/rf_classifier</a>.  It was developed against
 Python 3.6 using a virtual environment, and it provides a requirements.txt file that can be used to “pip install”
 it’s package dependencies.  Additionally this documentation is produced using Sphinx.  Once the application is
@@ -181,23 +192,24 @@ using git tag -l.  Checkout the desired version after download the git repositor
 <span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">version</span><span class="o">-</span><span class="n">tag</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>This application works with the Pubtools Python 3.6.9 installation.  A requirements.txt file is included to help with development or initial installation.
-A setup-certified script is supplied to make installation along certified guidelines more streamlined.</p>
+<p>This application was developed against Python 3.6.9.  A requirements.txt file is included to help with development or initial installation.
+The setup-certified script is supplied to make installation along certified guidelines more streamlined, but can be ignored for a generic install.
+To create the virtual environment and install dependencies in a Linux/bash environment.::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="o">./</span><span class="n">venv</span>
+<span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
 <p>If desired, build the Spinx-based HTML documentation.  Additionally, launch Firefox to view them.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">build</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">docsrc</span><span class="o">/</span>
+<span class="n">make</span> <span class="n">github</span>
 <span class="n">firefox</span> <span class="o">../</span><span class="n">docs</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="n">cd</span> <span class="o">..</span>
 </pre></div>
 </div>
 <p>Run the application’s test suite.  No models have been installed so this will be a quick test of the base code.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">test</span>
-</pre></div>
-</div>
-<p>If you are installing for the certified area the install option will remove everything unnecessary for execution.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">install</span>
-</pre></div>
-</div>
-<p>If you after all of this setup, if you would like to return this to a “reduced” state for certified-style tar.gz retention.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">compact</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">tests</span>
+<span class="o">./</span><span class="n">tester</span><span class="o">.</span><span class="n">bash</span>
 </pre></div>
 </div>
 <p>Finally, install any models following the guidance below.  Then rerun the test script.</p>
@@ -310,7 +322,7 @@ environment and call main.py with an specified arguments.  See the User Guide fo
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../dev_guide/index.html" class="btn btn-neutral float-right" title="rf_classifier Developer Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="certified_install.html" class="btn btn-neutral float-right" title="Certified Install Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../user_guide/index.html" class="btn btn-neutral float-left" title="rf_classifier User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
