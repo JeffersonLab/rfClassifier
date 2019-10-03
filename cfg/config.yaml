@@ -1,4 +1,4 @@
 ---
-# The directory containing models to be used by rf_classifier
-model_dir: '/usr/csmuser/adamc/apps/rf_classifier/models'
-default_model: "random_forest_v0_1"
+# The name of the model to be used by default.  Should match the file system
+# directory name of the model under the applications models_dir (models, by default)
+#default_model: "random_forest_v0_1"
