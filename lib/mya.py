@@ -51,7 +51,7 @@ def get_json(url):
 
 
 def get_pv_value(PV, datetime, deployment='ops'):
-    """Method for performing a point-type myquery mayweb request.  Returns the only the PV value.
+    """Method for performing a point-type myquery mayweb request.  Returns only the PV value.
 
     Args:
         PV (str): The EPICS channel to look up
@@ -59,7 +59,7 @@ def get_pv_value(PV, datetime, deployment='ops'):
         deployment(str): The name of a valid MYA deployment (defaults to 'ops')
 
     Returns:
-        str: The archived value of PV at datetime according to MYA deployment deployment
+        str: The archived value of PV at datetime according to MYA deployment
 
     Raises:
         ValueError: If the myquery point service returns an error response.
