@@ -94,7 +94,7 @@ def print_detailed_description(desc, is_default=False):
 
 
 def run_model(model_name, config, args=[]):
-    """Runs the specified model with the supplied arguments.  Model location dictated by config['model_dir'].
+    """Runs the specified model with the supplied arguments.  Model location dictated by config['models_dir'].
 
     Note: This will print error messages returned by the model.
 
@@ -108,9 +108,9 @@ def run_model(model_name, config, args=[]):
     """
 
     if platform.system() == "Linux":
-        call = [os.path.join(config['model_dir'], model_name, 'bin', 'model.bash')]
+        call = [os.path.join(config['models_dir'], model_name, 'bin', 'model.bash')]
     elif platform.system() == "Windows":
-        call = ['powershell', os.path.join(config['model_dir'], model_name, 'bin', 'model.ps1')]
+        call = ['powershell', os.path.join(config['models_dir'], model_name, 'bin', 'model.ps1')]
 
     # Model script should return JSON output needed for description
     call.extend(args)
@@ -138,7 +138,7 @@ def print_model_description(model_name, config, verbose, is_default):
         None:  Prints out description or relevant error messages.
     """
 
-    desc_file = os.path.join(config['model_dir'], model_name, "description.yaml")
+    desc_file = os.path.join(config['models_dir'], model_name, "description.yaml")
     if os.path.exists(desc_file):
         with open(desc_file, "r") as f:
             desc = yaml.safe_load(f.read())
@@ -173,7 +173,7 @@ def list_models(config, model=None, verbose=False):
 
     # If the query was for a specific model, print more info by default
     if model is not None:
-        if os.path.exists(os.path.join(config['model_dir'], model)):
+        if os.path.exists(os.path.join(config['models_dir'], model)):
             print_model_description(model_name=model, config=config, verbose=verbose,
                                     is_default=(model == default_model))
         else:
@@ -182,8 +182,8 @@ def list_models(config, model=None, verbose=False):
     # If the query was for all of the models, only print the names by default
     else:
         dot_pattern = re.compile("\..*")
-        for filename in os.listdir(config['model_dir']):
-            if os.path.isdir(os.path.join(config['model_dir'], filename)):
+        for filename in os.listdir(config['models_dir']):
+            if os.path.isdir(os.path.join(config['models_dir'], filename)):
                 if not dot_pattern.match(filename):
                     if verbose:
                         # Verbose is false here since a detailed listing of all models could take up too much space
