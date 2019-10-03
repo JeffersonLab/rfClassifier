@@ -36,7 +36,9 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="How To Generate Documentation" href="docs.html" />
-    <link rel="prev" title="Certified Install Guide" href="../admin_guide/certified_install.html" /> 
+    <link rel="prev" title="Certified Install Guide" href="../admin_guide/certified_install.html" />
+    <link href="../_static/rtd_custom.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -175,7 +177,7 @@
 </div>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>This guide is intended to help new developers quickly get up to speed.  The rf_classifier application is made up of essentially two types software components, the main rf_classifier python application and the pluggable models.  The main application is designed to be as minimal as possible while still capable of processing user input, stored configuration, and loading pluggable models.  The pluggable models are responsible for the majority of the application’s workload - namely classifying C100 RF faults based on waveform data captured at the time of the fault.  The classification models used in this process will likely be under development for some time as better models are created and additional classes of faults are identified.</p>
+<p>This guide is intended to help new developers quickly get up to speed.  The rf_classifier application is made up of essentially two types of software components, the main rf_classifier python application and the pluggable models.  The main application is designed to be as minimal as possible while still capable of processing user input, stored configuration, and loading pluggable models.  The pluggable models are responsible for the majority of the application’s workload - namely classifying C100 RF faults based on waveform data captured at the time of the fault.  The classification models used in this process will likely be under development for some time as better models are created and additional classes of faults are identified.</p>
 <p>These pluggable models will be developed by different parties using different techniques and relying on different Python software stacks.  Current machine learning software stacks are often very particular about dependency versions.  Maintaining a single Python package source would eventually run into difficult to resolve version conflicts.  Supporting pluggable models is achieved by making each model a separate application, capable of having a separate Python environment.  However, each model must still adhere to some standards that allow interoperability.</p>
 <p>See the API Documentation for details on supporting modules.</p>
 </div>
@@ -227,21 +229,27 @@ the following fields.<ul>
 model’s package dependencies.</li>
 </ul>
 </li>
-<li><p class="first">models must return a JSON object with the following structure.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;cavity-label&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
-            <span class="s2">&quot;cavity-confidence&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>
-            <span class="s2">&quot;fault-label&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
-            <span class="s2">&quot;fault-confidence: &lt;float&gt;,</span>
-            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
-            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<li><dl class="first docutils">
+<dt>models must return a JSON object with the following structure.::</dt><dd><dl class="docutils">
+<dt>{</dt><dd><dl class="docutils">
+<dt>“data”: [</dt><dd><dl class="docutils">
+<dt>{</dt><dd><p>“cavity-label”: &lt;string&gt;,
+“cavity-confidence”: &lt;float&gt;,
+“fault-label”: &lt;string&gt;,
+“fault-confidence: &lt;float&gt;,
+“location”: &lt;string&gt;
+“timestamp”: &lt;string&gt;</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>]</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
 <p>where</p>
 <ul class="simple">
 <li>cavity-label and fault-label are strings defined by the model for classifying faults</li>

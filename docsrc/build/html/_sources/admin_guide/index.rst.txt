@@ -10,6 +10,7 @@ Admin Guide
 =====================
 Overview
 =====================
+.. highlight:: none
 
 This guide is intended to document common steps needed to test and reconfigure the rf_classifier application.
 

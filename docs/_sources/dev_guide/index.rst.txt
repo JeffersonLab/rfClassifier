@@ -11,7 +11,7 @@ rf_classifier Developer Guide
 ================================
 Overview
 ================================
-This guide is intended to help new developers quickly get up to speed.  The rf_classifier application is made up of essentially two types software components, the main rf_classifier python application and the pluggable models.  The main application is designed to be as minimal as possible while still capable of processing user input, stored configuration, and loading pluggable models.  The pluggable models are responsible for the majority of the application's workload - namely classifying C100 RF faults based on waveform data captured at the time of the fault.  The classification models used in this process will likely be under development for some time as better models are created and additional classes of faults are identified.
+This guide is intended to help new developers quickly get up to speed.  The rf_classifier application is made up of essentially two types of software components, the main rf_classifier python application and the pluggable models.  The main application is designed to be as minimal as possible while still capable of processing user input, stored configuration, and loading pluggable models.  The pluggable models are responsible for the majority of the application's workload - namely classifying C100 RF faults based on waveform data captured at the time of the fault.  The classification models used in this process will likely be under development for some time as better models are created and additional classes of faults are identified.
 
 These pluggable models will be developed by different parties using different techniques and relying on different Python software stacks.  Current machine learning software stacks are often very particular about dependency versions.  Maintaining a single Python package source would eventually run into difficult to resolve version conflicts.  Supporting pluggable models is achieved by making each model a separate application, capable of having a separate Python environment.  However, each model must still adhere to some standards that allow interoperability.
 
@@ -66,7 +66,6 @@ Pluggable models must meet the following requirements.
      model's package dependencies.
 
  - models must return a JSON object with the following structure.::
-
     {
         "data": [
             {

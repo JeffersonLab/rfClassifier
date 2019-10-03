@@ -3,6 +3,7 @@
 ++++++++++++++++++++++++
 Certified Install Guide
 ++++++++++++++++++++++++
+.. highlight:: none
 
 This guide is meant to describe the process used to install the software into the CEBAF Accelerator Certified Software
 repository.
@@ -10,6 +11,7 @@ repository.
 =====================
 Versioned Tarball
 =====================
+
 The SQAM likes to work with a simple tarball of the source code for the version to be installed.  Download the repo from
 github, checkout the version, create a gzipped tarball of the source.::
 
@@ -75,6 +77,8 @@ both the model name and model version.  To create a link to a model:::
 SQAM Model Install Guide
 ==================================
 
+**Note: these steps will need to be repeated for each supported architecture.**
+
 Once the application has been installed, you will need to install a model application.  You should have received a
 versioned tarball, similar to the main rf_classifier, containing the software to be installed.  Unpack this tarball
 somewhere temporary.::
@@ -102,7 +106,7 @@ architecture.::
     ln -s /cs/certified/apps/rf_classifier/models/<model_name>/<model_version>/<arch> <model_name>_v<model_version>
 
 Finally, link this model into a supporting version of rf_classifier.  You may need to speak with the developer to find
-out with versions are supporting.::
+out which versions are supported.  **Note: this needs to be done for each supported architecture for the application.**::
 
     cd /cs/certified/apps/rf_classifier/<version>/models
     ln -s /usr/csite/certified/libexec/rf_classifier_models/<model_name>_v<model_version> .

@@ -4,26 +4,28 @@ rf_classifier User Guide
 
 .. toctree::
 
+.. highlight:: none
+
 The rf_classifier appilcation is a command line tool for analyzing C100 waveforms captured at the time of a fault.  The
 application leverages a "pluggable" module architecture that allows for the user to access different models to determine
 which cavity faulted and which type of fault occurred.
 
 To get application name and version::
 
-  rf_classifier.bash
+  rf_classifier
 
 Example::
 
-  > rf_classifier.bash
+  > rf_classifier
   rf_classifier v0.1
 
-To get help messages.::
+To get help messages::
 
-  rf_classifier.bash -h [list_models|analyze]
+  rf_classifier -h [list_models|analyze]
 
 Example::
 
-  > bin/rf_classifier.bash -h
+  > rf_classifier -h
   usage: main.py [-h] [-c CONFIG_FILE] [-M MODELS_DIR] {list_models,analyze} ...
 
   rf_classifier v0.1 A program that determines the fault type and offending
@@ -42,22 +44,23 @@ Example::
     -M MODELS_DIR, --models_dir MODELS_DIR
                           Specify the directory contain the models package
 
+
 To list out available models::
 
-  rf_classifier.bash list_models
+  rf_classifier list_models
 
 Example::
 
-  > bin/rf_classifier.bash list_models
+  > rf_classifier list_models
   random_forest_v0_1 (default)
 
 To get detailed information about a single model::
 
-  rf_classifier.bash list_models -v <model_name>
+  rf_classifier list_models -v <model_name>
 
 Example::
 
-  > rf_classifier.bash list_models -v random_forest_v0_1
+  > rf_classifier list_models -v random_forest_v0_1
   random_forest_v0_1 (default)
   Release Date:  July 30, 2019
   Cavity Labels: ['multiple', '1', '2', '3', '4', '5', '6', '7', '8']
@@ -77,21 +80,21 @@ Example::
 
 To analyze a fault event using the default model.  Note, the path should include the date and time componenets.::
 
-  rf_classifier.bash analyze /path/to/event/date/time/
+  rf_classifier analyze /path/to/event/date/time/
 
 Example::
 
-  > bin/rf_classifier.bash analyze /usr/opsdata/waveforms/data/rf/1L26/2018_04_29/193409.3
+  > rf_classifier analyze /usr/opsdata/waveforms/data/rf/1L26/2018_04_29/193409.3
   Cavity     Fault               Zone     Timestamp              Model                Cav-Conf Fault-Conf
   8          Single Cav Turn off 1L26     2018-04-29 19:34:09.3  random_forest_v0_1   0.99     0.79
 
 To analyze a fault event using a non-default model with JSON output.::
 
-  rf_classifier.bash analyze -m <model_name> -o json /path/to/event/date/time
+  rf_classifier analyze -m <model_name> -o json /path/to/event/date/time
 
 Example::
 
-  > bin/rf_classifier.bash analyze -m random_forest_v0_1 -o json /data/waveforms/data/rf/1L26/2018_04_29/193409.3
+  > rf_classifier analyze -m random_forest_v0_1 -o json /data/waveforms/data/rf/1L26/2018_04_29/193409.3
   [
     {
       "location": "1L26",

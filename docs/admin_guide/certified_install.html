@@ -36,7 +36,9 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="rf_classifier Developer Guide" href="../dev_guide/index.html" />
-    <link rel="prev" title="Admin Guide" href="index.html" /> 
+    <link rel="prev" title="Admin Guide" href="index.html" />
+    <link href="../_static/rtd_custom.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -178,15 +180,15 @@ repository.</p>
 <h2>Versioned Tarball<a class="headerlink" href="#versioned-tarball" title="Permalink to this headline">¶</a></h2>
 <p>The SQAM likes to work with a simple tarball of the source code for the version to be installed.  Download the repo from
 github, checkout the version, create a gzipped tarball of the source.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">JeffersonLab</span><span class="o">/</span><span class="n">rf_classifier</span>
-<span class="n">cd</span> <span class="n">rf_classifier</span>
-<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">l</span>
-<span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">version_tag</span><span class="o">&gt;</span>
-<span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">.</span><span class="n">git</span>
-<span class="n">cd</span> <span class="o">..</span>
-<span class="n">mv</span> <span class="n">rf_classifier</span> <span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;</span>
-<span class="n">tar</span> <span class="o">-</span><span class="n">czf</span> <span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp
+git clone https://github.com/JeffersonLab/rf_classifier
+cd rf_classifier
+git tag -l
+git checkout &lt;version_tag&gt;
+rm -rf .git
+cd ..
+mv rf_classifier rf_classifier_v&lt;version_number&gt;
+tar -czf rf_classifier_v&lt;version_number&gt;.tar.gz rf_classifier_v&lt;version_number&gt;
 </pre></div>
 </div>
 <p>Now email this version tarball to the SQAM aka Chris Slominski.</p>
@@ -194,34 +196,34 @@ github, checkout the version, create a gzipped tarball of the source.:</p>
 <div class="section" id="sqam-application-install-guide">
 <h2>SQAM Application Install Guide<a class="headerlink" href="#sqam-application-install-guide" title="Permalink to this headline">¶</a></h2>
 <p>Download the tarball to somewhere temporary and unpack it.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span>
-<span class="n">tar</span> <span class="o">-</span><span class="n">xzf</span> <span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-<span class="n">cd</span> <span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp/
+tar -xzf rf_classifier_v&lt;version_number&gt;.tar.gz
+cd rf_classifier_v&lt;version_number&gt;
 </pre></div>
 </div>
 <p>Run the “build” setup step to generate documentation, etc.  Optionally run firefox to inspect.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">build</span>
-<span class="n">firefox</span> <span class="n">docs</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span> <span class="o">&amp;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./setup-certified.bash build
+firefox docs/index.html &amp;
 </pre></div>
 </div>
 <p>Run the “test” setup step to test the base application.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">test</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./setup-certified.bash test
 </pre></div>
 </div>
 <p>Now perform the SQAMY duties of copying this documentation to the certified project area.  This means you need to copy
 the entire contents of the docs directory to the projects’ certified web directory.</p>
 <p>When that is done, make a copy of this application in the application directory.  Then run the “install” setup step.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">../</span><span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/&lt;</span><span class="n">version_number</span><span class="o">&gt;/</span>
-<span class="n">cd</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/&lt;</span><span class="n">version_number</span><span class="o">&gt;</span>
-<span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">install</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp -r ../rf_classifier_v&lt;version_number&gt; /cs/certified/apps/rf_classifier/&lt;version_number&gt;/
+cd /cs/certified/apps/rf_classifier/&lt;version_number&gt;
+./setup-certified.bash install
 </pre></div>
 </div>
 <p>Now that the software is installed, you can run the compact step back in the temporary copy of the software.  Then create
 the official source code tarball.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;</span>
-<span class="o">./</span><span class="n">setup</span><span class="o">-</span><span class="n">certified</span><span class="o">.</span><span class="n">bash</span> <span class="n">compact</span>
-<span class="n">cd</span> <span class="o">../</span>
-<span class="n">tar</span> <span class="o">-</span><span class="n">czf</span> <span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">rf_classifier_v</span><span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp/rf_classifier_v&lt;version_number&gt;
+./setup-certified.bash compact
+cd ../
+tar -czf rf_classifier_v&lt;version_number&gt;.tar.gz rf_classifier_v&lt;version_number&gt;
 </pre></div>
 </div>
 <p>As a reminder, somewhere in here you will need to update the audit stuff.  The documentation expects to find it in a
@@ -229,18 +231,19 @@ directory named “audit” one level up from the documentation root.</p>
 <p>Finally, you will need to create links to any supported models.  If this is the first install, there aren’t yet any
 models, and you will need to continue in Model Install Guide below.  Remember, the links should include in their name
 both the model name and model version.  To create a link to a model::</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/&lt;</span><span class="n">version</span><span class="o">&gt;/</span><span class="n">models</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">csite</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">rf_classifier_models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;</span><span class="n">_v</span><span class="o">&lt;</span><span class="n">model_version</span><span class="o">&gt;</span> <span class="o">.</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /cs/certified/apps/rf_classifier/&lt;version&gt;/models
+ln -s /usr/csite/certified/libexec/rf_classifier_models/&lt;model_name&gt;_v&lt;model_version&gt; .
 </pre></div>
 </div>
 </div>
 <div class="section" id="sqam-model-install-guide">
 <h2>SQAM Model Install Guide<a class="headerlink" href="#sqam-model-install-guide" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note: these steps will need to be repeated for each supported architecture.</strong></p>
 <p>Once the application has been installed, you will need to install a model application.  You should have received a
 versioned tarball, similar to the main rf_classifier, containing the software to be installed.  Unpack this tarball
 somewhere temporary.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span>
-<span class="n">tar</span> <span class="o">-</span><span class="n">xzf</span> <span class="o">&lt;</span><span class="n">model</span><span class="o">&gt;</span><span class="n">_v</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp/
+tar -xzf &lt;model&gt;_v&lt;version&gt;.tar.gz
 </pre></div>
 </div>
 <p>The model will have a README.md file in it’s root.  Follow the instructions in it for setting it up.  This will likely
@@ -248,31 +251,31 @@ include building an architecture dependent Python virtual environment, and run t
 activating that venv.  You will need to repeat this step for every supported architecture.</p>
 <p>Once the model has been setup for the architecture, make the needed directories under the rf_classifer certified
 application directory and copy over the new model.  You will need to repeat this step for every supported architecture.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span>
-<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;/&lt;</span><span class="n">model_version</span><span class="o">&gt;/&lt;</span><span class="n">arch</span><span class="o">&gt;</span>
-<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/&lt;</span><span class="n">model</span><span class="o">&gt;</span><span class="n">_v</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;/*</span> <span class="n">models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;/&lt;</span><span class="n">model_version</span><span class="o">&gt;/&lt;</span><span class="n">arch</span><span class="o">&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /cs/certified/apps/rf_classifier
+mkdir -p models/&lt;model_name&gt;/&lt;model_version&gt;/&lt;arch&gt;
+cp -r /tmp/&lt;model&gt;_v&lt;version&gt;/* models/&lt;model_name&gt;/&lt;model_version&gt;/&lt;arch&gt;
 </pre></div>
 </div>
 <p>Then create the architecture dependent certified libexec links.  You will need to do this step on every supported
 architecture.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">csite</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">libexec</span>
-<span class="n">mkdir</span> <span class="n">rf_classifier_models</span>
-<span class="n">cd</span> <span class="n">rf_classifier_models</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/</span><span class="n">models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;/&lt;</span><span class="n">model_version</span><span class="o">&gt;/&lt;</span><span class="n">arch</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;</span><span class="n">_v</span><span class="o">&lt;</span><span class="n">model_version</span><span class="o">&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /usr/csite/certified/libexec
+mkdir rf_classifier_models
+cd rf_classifier_models
+ln -s /cs/certified/apps/rf_classifier/models/&lt;model_name&gt;/&lt;model_version&gt;/&lt;arch&gt; &lt;model_name&gt;_v&lt;model_version&gt;
 </pre></div>
 </div>
 <p>Finally, link this model into a supporting version of rf_classifier.  You may need to speak with the developer to find
-out with versions are supporting.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">cs</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">/&lt;</span><span class="n">version</span><span class="o">&gt;/</span><span class="n">models</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">csite</span><span class="o">/</span><span class="n">certified</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">rf_classifier_models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;</span><span class="n">_v</span><span class="o">&lt;</span><span class="n">model_version</span><span class="o">&gt;</span> <span class="o">.</span>
+out which versions are supported.  <strong>Note: this needs to be done for each supported architecture for the application.</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /cs/certified/apps/rf_classifier/&lt;version&gt;/models
+ln -s /usr/csite/certified/libexec/rf_classifier_models/&lt;model_name&gt;_v&lt;model_version&gt; .
 </pre></div>
 </div>
 <p>Then test that this model is useable.  Run rf_classifiers tester script.  It should pickup the model’s tests.  Also,
 try to run the model.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">../</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">tester</span><span class="o">.</span><span class="n">bash</span>
-<span class="nb">bin</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">.</span><span class="n">bash</span> <span class="n">list_models</span> <span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;</span><span class="n">_v</span><span class="o">&lt;</span><span class="n">model_version</span><span class="o">&gt;</span>
-<span class="nb">bin</span><span class="o">/</span><span class="n">rf_classifier</span><span class="o">.</span><span class="n">bash</span> <span class="n">analyze</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;</span><span class="n">_v</span><span class="o">&lt;</span><span class="n">model_version</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">opsdata</span><span class="o">/</span><span class="n">waveforms</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">rf</span><span class="o">/&lt;</span><span class="n">zone</span><span class="o">&gt;/&lt;</span><span class="n">date</span><span class="o">&gt;/&lt;</span><span class="n">timestamp</span><span class="o">&gt;/</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd ../
+tests/tester.bash
+bin/rf_classifier.bash list_models &lt;model_name&gt;_v&lt;model_version&gt;
+bin/rf_classifier.bash analyze -m &lt;model_name&gt;_v&lt;model_version&gt; /usr/opsdata/waveforms/data/rf/&lt;zone&gt;/&lt;date&gt;/&lt;timestamp&gt;/
 </pre></div>
 </div>
 </div>
