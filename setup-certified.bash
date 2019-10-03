@@ -49,7 +49,7 @@ install () {
     rm -rf tests/
     rm audit
     rm requirements.txt
-    rm requirements-certified
+    rm requirements-certified.txt
     rm README.md
 }
 
