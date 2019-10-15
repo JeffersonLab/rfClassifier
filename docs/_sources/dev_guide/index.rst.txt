@@ -48,7 +48,7 @@ Pluggable models must meet the following requirements.
    + lib/ will contain any python code or Pickle files associated with the model
    + test/ will contain all files associated with running unittest-based unit tests
 
-     - all test scripts should be based on unittest and be named in such a way that they are discoverable by the unittest module start from the test directory (e.g., named with a leading "test_")
+     - all test scripts should be based on unittest and be named in such a way that they are discoverable by the unittest module start from the test directory (e.g., named with a leading "test\_")
      - tests should include actual waveform data
      - models must include at least one test script
 
@@ -66,6 +66,7 @@ Pluggable models must meet the following requirements.
      model's package dependencies.
 
  - models must return a JSON object with the following structure.::
+
     {
         "data": [
             {
