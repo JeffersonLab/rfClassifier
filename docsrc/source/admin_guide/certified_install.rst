@@ -95,18 +95,18 @@ somewhere temporary.::
     tar -xzf <model>_v<version>.tar.gz
 
 The model will have a README.md file in it's root.  Follow the instructions in it for setting it up.  This will likely
-include building an architecture dependent Python virtual environment, and run the test/test_model.py script after
-activating that venv.  You will need to repeat this step for every supported architecture.
+include building an architecture dependent Python virtual environment, running the test/test_model.py script, and
+updating the audit/release notes.  You will need to repeat this step for every supported architecture.
 
 Once the model has been setup for the architecture, make the needed directories under the rf_classifer certified
-application directory and copy over the new model.  You will need to repeat this step for every supported architecture.::
+application directory and copy over the new model.  **You will need to repeat this step for every supported architecture.**::
 
     cd /cs/certified/apps/rf_classifier
     mkdir -p models/<model_name>/<model_version>/<arch>
     cp -r /tmp/<model>_v<version>/* models/<model_name>/<model_version>/<arch>
 
-Then create the architecture dependent certified libexec links.  You will need to do this step on every supported
-architecture.::
+Then create the architecture dependent certified libexec links.  **You will need to do this step on every supported
+architecture.**::
 
     cd /usr/csite/certified/libexec
     mkdir rf_classifier_models
