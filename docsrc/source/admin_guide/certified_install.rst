@@ -46,6 +46,16 @@ Run the "test" setup step to test the base application.::
 
     ./setup-certified.bash test
 
+Once you have your audit files and are ready to deploy, you will need to update the audit portions of the documentation.
+The documentation expects to find audit files named diff<version>.txt (e.g., diff1.2.3.txt) in the directory named
+"docsrc/audit".  Please make any simple edits related to release notes in docsrc/source/release_notes.rst.  Once done,
+rerun "setup-certified.bash build" to update the documentation.::
+
+    vi docsrc/audit/diff<version>.txt
+    vi docsrc/source/release_notes.rst
+    ./setup-certified.bash build
+    firefox docs/release_notes.html &
+
 Now perform the SQAMY duties of copying this documentation to the certified project area.  This means you need to copy
 the entire contents of the docs directory to the projects' certified web directory.
 
@@ -63,8 +73,6 @@ the official source code tarball.::
     cd ../
     tar -czf rf_classifier_v<version_number>.tar.gz rf_classifier_v<version_number>
 
-As a reminder, somewhere in here you will need to update the audit stuff.  The documentation expects to find it in a
-directory named "audit" one level up from the documentation root.
 
 Finally, you will need to create links to any supported models.  If this is the first install, there aren't yet any
 models, and you will need to continue in Model Install Guide below.  Remember, the links should include in their name

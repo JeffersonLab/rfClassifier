@@ -28,9 +28,8 @@ respectively for more information.
     Admin Guide <admin_guide/index>
     Developer Guide <dev_guide/index>
     API Documentation <dev_guide/api/index>
-    Release Notes <release_notes>
+    Relase Notes <release_notes>
     Links <links>
-    Audit <../audit/#://>
 
 
 

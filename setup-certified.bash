@@ -29,7 +29,6 @@ build () {
     echo "building - building docs"
     cd docsrc
     make github
-    cp -R audit/ ../docs/
     cd -
 }
 
