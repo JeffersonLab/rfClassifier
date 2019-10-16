@@ -96,7 +96,8 @@ somewhere temporary.::
 
 The model will have a README.md file in it's root.  Follow the instructions in it for setting it up.  This will likely
 include building an architecture dependent Python virtual environment, running the test/test_model.py script, and
-updating the audit/release notes.  You will need to repeat this step for every supported architecture.
+updating the audit/release notes.  **You will need to repeat this step for every supported architecture** excluding
+audit/release notes updates.
 
 Once the model has been setup for the architecture, make the needed directories under the rf_classifer certified
 application directory and copy over the new model.  **You will need to repeat this step for every supported architecture.**::
