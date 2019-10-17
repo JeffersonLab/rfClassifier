@@ -2,7 +2,7 @@
 Release Notes
 +++++++++++++++++++++++++++++++++++++++++
 
-**October 2019 - v1.0.1**
+**October 17, 2019 - v1.0.1**
 
 This version includes the following updates and bug fixes.
 
