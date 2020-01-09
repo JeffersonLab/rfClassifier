@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Certified Install Guide &mdash; rf_classifier 0.1 documentation</title>
+  <title>Certified Install Guide &mdash; rf_classifier 1.0.1 documentation</title>
   
 
   
@@ -103,9 +103,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../dev_guide/index.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev_guide/api/index.html">API Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Relase Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../links.html">Links</a></li>
-<li class="toctree-l1"><a class="reference external" href="../audit/#://">Audit</a></li>
 </ul>
 
             
@@ -210,6 +209,16 @@ firefox docs/index.html &amp;
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./setup-certified.bash test
 </pre></div>
 </div>
+<p>Once you have your audit files and are ready to deploy, you will need to update the audit portions of the documentation.
+The documentation expects to find audit files named diff&lt;version&gt;.txt (e.g., diff1.2.3.txt) in the directory named
+“docsrc/audit”.  Please make any simple edits related to release notes in docsrc/source/release_notes.rst.  Once done,
+rerun “setup-certified.bash build” to update the documentation.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vi docsrc/audit/diff&lt;version&gt;.txt
+vi docsrc/source/release_notes.rst
+./setup-certified.bash build
+firefox docs/release_notes.html &amp;
+</pre></div>
+</div>
 <p>Now perform the SQAMY duties of copying this documentation to the certified project area.  This means you need to copy
 the entire contents of the docs directory to the projects’ certified web directory.</p>
 <p>When that is done, make a copy of this application in the application directory.  Then run the “install” setup step.:</p>
@@ -226,8 +235,6 @@ cd ../
 tar -czf rf_classifier_v&lt;version_number&gt;.tar.gz rf_classifier_v&lt;version_number&gt;
 </pre></div>
 </div>
-<p>As a reminder, somewhere in here you will need to update the audit stuff.  The documentation expects to find it in a
-directory named “audit” one level up from the documentation root.</p>
 <p>Finally, you will need to create links to any supported models.  If this is the first install, there aren’t yet any
 models, and you will need to continue in Model Install Guide below.  Remember, the links should include in their name
 both the model name and model version.  To create a link to a model::</p>
@@ -247,17 +254,18 @@ tar -xzf &lt;model&gt;_v&lt;version&gt;.tar.gz
 </pre></div>
 </div>
 <p>The model will have a README.md file in it’s root.  Follow the instructions in it for setting it up.  This will likely
-include building an architecture dependent Python virtual environment, and run the test/test_model.py script after
-activating that venv.  You will need to repeat this step for every supported architecture.</p>
+include building an architecture dependent Python virtual environment, running the test/test_model.py script, and
+updating the audit/release notes.  <strong>You will need to repeat this step for every supported architecture</strong> excluding
+audit/release notes updates.</p>
 <p>Once the model has been setup for the architecture, make the needed directories under the rf_classifer certified
-application directory and copy over the new model.  You will need to repeat this step for every supported architecture.:</p>
+application directory and copy over the new model.  <strong>You will need to repeat this step for every supported architecture.</strong>:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /cs/certified/apps/rf_classifier
 mkdir -p models/&lt;model_name&gt;/&lt;model_version&gt;/&lt;arch&gt;
 cp -r /tmp/&lt;model&gt;_v&lt;version&gt;/* models/&lt;model_name&gt;/&lt;model_version&gt;/&lt;arch&gt;
 </pre></div>
 </div>
-<p>Then create the architecture dependent certified libexec links.  You will need to do this step on every supported
-architecture.:</p>
+<p>Then create the architecture dependent certified libexec links.  <strong>You will need to do this step on every supported
+architecture.</strong>:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /usr/csite/certified/libexec
 mkdir rf_classifier_models
 cd rf_classifier_models

@@ -13,7 +13,7 @@ app_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)
 name = 'rf_classifier'
 """Short name of application associated with executable file"""
 
-version = "1.0"
+version = "1.0.1"
 """Application version string"""
 
 
@@ -208,19 +208,43 @@ def print_results_table(results, config, header=True):
 
     # Cavity Fault Zone Timestamp Model Cav-Conf Fault-Conf
     fmt = "{:10s} {:19s} {:8s} {:22s} {:20s} {:8s} {:8s}"
-    if header:
-        print(fmt.format("Cavity", "Fault", "Zone", "Timestamp", "Model", "Cav-Conf", "Fault-Conf"))
-
+    first_result = True
     for result in results:
-        print(fmt.format(
-            result['cavity-label'],
-            result['fault-label'],
-            result['location'],
-            result['timestamp'],
-            config['model'],
-            str(round(result['cavity-confidence'], 2)) if result['cavity-confidence'] is not None else "N/A",
-            str(round(result['fault-confidence'], 2)) if result['fault-confidence'] is not None else "N/A",
-        ))
+        # A result containing an error key will be shown below
+        if "error" not in result.keys():
+
+            # We could have received all errors so don't print a header unless needed
+            if first_result:
+                first_result = False
+                if header:
+                    print(fmt.format("Cavity", "Fault", "Zone", "Timestamp", "Model", "Cav-Conf", "Fault-Conf"))
+
+            print(fmt.format(
+                result['cavity-label'],
+                result['fault-label'],
+                result['location'],
+                result['timestamp'],
+                config['model'],
+                str(round(result['cavity-confidence'], 2)) if result['cavity-confidence'] is not None else "N/A",
+                str(round(result['fault-confidence'], 2)) if result['fault-confidence'] is not None else "N/A",
+            ))
+
+    first_error = True
+    err_fmt = "{:8s} {:22s} {}"
+    for result in results:
+        # Result with an error key will be handled here
+        if "error" in result.keys():
+
+            # We might not have received any errors.  Only print the header if needed.
+            if first_error:
+                print()
+                print(err_fmt.format("Zone", "Timestamp", "Error"))
+                first_error = False
+            print(err_fmt.format(
+                result['location'],
+                result['timestamp'], 
+                result['error']
+            ))
 
 
 if __name__ == "__main__":

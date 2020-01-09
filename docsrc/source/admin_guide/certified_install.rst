@@ -46,6 +46,16 @@ Run the "test" setup step to test the base application.::
 
     ./setup-certified.bash test
 
+Once you have your audit files and are ready to deploy, you will need to update the audit portions of the documentation.
+The documentation expects to find audit files named diff<version>.txt (e.g., diff1.2.3.txt) in the directory named
+"docsrc/audit".  Please make any simple edits related to release notes in docsrc/source/release_notes.rst.  Once done,
+rerun "setup-certified.bash build" to update the documentation.::
+
+    vi docsrc/audit/diff<version>.txt
+    vi docsrc/source/release_notes.rst
+    ./setup-certified.bash build
+    firefox docs/release_notes.html &
+
 Now perform the SQAMY duties of copying this documentation to the certified project area.  This means you need to copy
 the entire contents of the docs directory to the projects' certified web directory.
 
@@ -98,8 +108,8 @@ environment, and run the test/test_model.py script after activating that venv.  
 installing the model into the above directory  You will need to repeat this step for
 every supported architecture.
 
-Then create the architecture dependent certified libexec links.  You will need to do this step on every supported
-architecture.::
+Then create the architecture dependent certified libexec links.  **You will need to do this step on every supported
+architecture.**::
 
     cd /usr/csite/certified/libexec
     mkdir rf_classifier_models

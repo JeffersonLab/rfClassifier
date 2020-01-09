@@ -29,7 +29,6 @@ build () {
     echo "building - building docs"
     cd docsrc
     make github
-    cp -R audit/ ../docs/
     cd -
 }
 
@@ -47,7 +46,6 @@ install () {
     rm -rf ./docs/
     rm -rf ./docsrc/
     rm -rf tests/
-    rm audit
     rm requirements.txt
     rm requirements-certified.txt
     rm README.md

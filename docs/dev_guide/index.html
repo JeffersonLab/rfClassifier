@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>rf_classifier Developer Guide &mdash; rf_classifier 0.1 documentation</title>
+  <title>rf_classifier Developer Guide &mdash; rf_classifier 1.0.1 documentation</title>
   
 
   
@@ -95,9 +95,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Relase Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../links.html">Links</a></li>
-<li class="toctree-l1"><a class="reference external" href="../audit/#://">Audit</a></li>
 </ul>
 
             
@@ -210,7 +209,7 @@
 </li>
 <li>lib/ will contain any python code or Pickle files associated with the model</li>
 <li>test/ will contain all files associated with running unittest-based unit tests<ul>
-<li>all test scripts should be based on unittest and be named in such a way that they are discoverable by the unittest module start from the test directory (e.g., named with a leading “<a href="#id1"><span class="problematic" id="id2">test_</span></a>”)</li>
+<li>all test scripts should be based on unittest and be named in such a way that they are discoverable by the unittest module start from the test directory (e.g., named with a leading “test_”)</li>
 <li>tests should include actual waveform data</li>
 <li>models must include at least one test script</li>
 </ul>
@@ -229,27 +228,21 @@ the following fields.<ul>
 model’s package dependencies.</li>
 </ul>
 </li>
-<li><dl class="first docutils">
-<dt>models must return a JSON object with the following structure.::</dt><dd><dl class="docutils">
-<dt>{</dt><dd><dl class="docutils">
-<dt>“data”: [</dt><dd><dl class="docutils">
-<dt>{</dt><dd><p>“cavity-label”: &lt;string&gt;,
-“cavity-confidence”: &lt;float&gt;,
-“fault-label”: &lt;string&gt;,
-“fault-confidence: &lt;float&gt;,
-“location”: &lt;string&gt;
-“timestamp”: &lt;string&gt;</p>
-</dd>
-</dl>
-<p>}</p>
-</dd>
-</dl>
-<p>]</p>
-</dd>
-</dl>
-<p>}</p>
-</dd>
-</dl>
+<li><p class="first">models must return a JSON object with the following structure.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;cavity-label&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s2">&quot;cavity-confidence&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s2">&quot;fault-label&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s2">&quot;fault-confidence: &lt;float&gt;,</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <p>where</p>
 <ul class="simple">
 <li>cavity-label and fault-label are strings defined by the model for classifying faults</li>
