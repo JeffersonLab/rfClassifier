@@ -4,10 +4,11 @@ Release Notes
 
 **January 9, 2019 - v1.0.2**
 
-This version includes only updates to documentation.
+This version includes only updates to documentation, and a bug fix for building documentation.
 
 - Documentation updated to include clearer steps for installing model applications in to certified repository
 - Minor typo and formatting fixes
+- The Makefile github target had a bug the affected the proper copying of built documentation to the docs directory
 
 **October 17, 2019 - v1.0.1**
 
