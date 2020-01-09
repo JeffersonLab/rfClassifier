@@ -13,7 +13,7 @@ app_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)
 name = 'rf_classifier'
 """Short name of application associated with executable file"""
 
-version = "1.0.1"
+version = "1.0.2"
 """Application version string"""
 
 
