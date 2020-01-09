@@ -86,16 +86,17 @@ somewhere temporary.::
     cd /tmp/
     tar -xzf <model>_v<version>.tar.gz
 
-The model will have a README.md file in it's root.  Follow the instructions in it for setting it up.  This will likely
-include building an architecture dependent Python virtual environment, and run the test/test_model.py script after
-activating that venv.  You will need to repeat this step for every supported architecture.
-
-Once the model has been setup for the architecture, make the needed directories under the rf_classifer certified
-application directory and copy over the new model.  You will need to repeat this step for every supported architecture.::
+Then prepare the installation directory of the model.  A model will likely need to be built in this directory, but please
+defer to the actual installation instructions in the model::
 
     cd /cs/certified/apps/rf_classifier
     mkdir -p models/<model_name>/<model_version>/<arch>
-    cp -r /tmp/<model>_v<version>/* models/<model_name>/<model_version>/<arch>
+
+The model will have a README.md file in it's root (or possibly some other set of obvious documentation).  Follow the
+instructions in it for setting it up.  This will likely include building an architecture dependent Python virtual
+environment, and run the test/test_model.py script after activating that venv.  This step should result in you
+installing the model into the above directory  You will need to repeat this step for
+every supported architecture.
 
 Then create the architecture dependent certified libexec links.  You will need to do this step on every supported
 architecture.::
@@ -118,3 +119,4 @@ try to run the model.::
     tests/tester.bash
     bin/rf_classifier.bash list_models <model_name>_v<model_version>
     bin/rf_classifier.bash analyze -m <model_name>_v<model_version> /usr/opsdata/waveforms/data/rf/<zone>/<date>/<timestamp>/
+
