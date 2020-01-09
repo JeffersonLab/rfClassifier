@@ -2,6 +2,13 @@
 Release Notes
 +++++++++++++++++++++++++++++++++++++++++
 
+**January 9, 2019 - v1.0.2**
+
+This version includes only updates to documentation.
+
+- Documentation updated to include clearer steps for installing model applications in to certified repository
+- Minor typo and formatting fixes
+
 **October 17, 2019 - v1.0.1**
 
 This version includes the following updates and bug fixes.
