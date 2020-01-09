@@ -24,4 +24,4 @@ github:
 	rm -rf ../docs/*
 	@make html
 	cp -r audit/ build/html/
-	cp -r build/html/. ../docs
+	cp -r build/html/* ../docs
