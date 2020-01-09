@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Certified Install Guide &mdash; rf_classifier 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rf_classifier Developer Guide" href="../dev_guide/index.html" />
+    <link rel="prev" title="Admin Guide" href="index.html" />
+    <link href="../_static/rtd_custom.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> rf_classifier
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Admin Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Certified Install Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#versioned-tarball">Versioned Tarball</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sqam-application-install-guide">SQAM Application Install Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sqam-model-install-guide">SQAM Model Install Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#generic-installation">Generic Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#software-testing">Software Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#installing-a-model">Installing A Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#application-configuration">Application Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-application">Running the Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/index.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Relase Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Links</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rf_classifier</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Admin Guide</a> &raquo;</li>
+        
+      <li>Certified Install Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/admin_guide/certified_install.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="certified-install-guide">
+<span id="certified-install"></span><h1>Certified Install Guide<a class="headerlink" href="#certified-install-guide" title="Permalink to this headline">¶</a></h1>
+<p>This guide is meant to describe the process used to install the software into the CEBAF Accelerator Certified Software
+repository.</p>
+<div class="section" id="versioned-tarball">
+<h2>Versioned Tarball<a class="headerlink" href="#versioned-tarball" title="Permalink to this headline">¶</a></h2>
+<p>The SQAM likes to work with a simple tarball of the source code for the version to be installed.  Download the repo from
+github, checkout the version, create a gzipped tarball of the source.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp
+git clone https://github.com/JeffersonLab/rf_classifier
+cd rf_classifier
+git tag -l
+git checkout &lt;version_tag&gt;
+rm -rf .git
+cd ..
+mv rf_classifier rf_classifier_v&lt;version_number&gt;
+tar -czf rf_classifier_v&lt;version_number&gt;.tar.gz rf_classifier_v&lt;version_number&gt;
+</pre></div>
+</div>
+<p>Now email this version tarball to the SQAM aka Chris Slominski.</p>
+</div>
+<div class="section" id="sqam-application-install-guide">
+<h2>SQAM Application Install Guide<a class="headerlink" href="#sqam-application-install-guide" title="Permalink to this headline">¶</a></h2>
+<p>Download the tarball to somewhere temporary and unpack it.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp/
+tar -xzf rf_classifier_v&lt;version_number&gt;.tar.gz
+cd rf_classifier_v&lt;version_number&gt;
+</pre></div>
+</div>
+<p>Run the “build” setup step to generate documentation, etc.  Optionally run firefox to inspect.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./setup-certified.bash build
+firefox docs/index.html &amp;
+</pre></div>
+</div>
+<p>Run the “test” setup step to test the base application.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./setup-certified.bash test
+</pre></div>
+</div>
+<p>Once you have your audit files and are ready to deploy, you will need to update the audit portions of the documentation.
+The documentation expects to find audit files named diff&lt;version&gt;.txt (e.g., diff1.2.3.txt) in the directory named
+“docsrc/audit”.  Please make any simple edits related to release notes in docsrc/source/release_notes.rst.  Once done,
+rerun “setup-certified.bash build” to update the documentation.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vi docsrc/audit/diff&lt;version&gt;.txt
+vi docsrc/source/release_notes.rst
+./setup-certified.bash build
+firefox docs/release_notes.html &amp;
+</pre></div>
+</div>
+<p>Now perform the SQAMY duties of copying this documentation to the certified project area.  This means you need to copy
+the entire contents of the docs directory to the projects’ certified web directory.</p>
+<p>When that is done, make a copy of this application in the application directory.  Then run the “install” setup step.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp -r ../rf_classifier_v&lt;version_number&gt; /cs/certified/apps/rf_classifier/&lt;version_number&gt;/
+cd /cs/certified/apps/rf_classifier/&lt;version_number&gt;
+./setup-certified.bash install
+</pre></div>
+</div>
+<p>Now that the software is installed, you can run the compact step back in the temporary copy of the software.  Then create
+the official source code tarball.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp/rf_classifier_v&lt;version_number&gt;
+./setup-certified.bash compact
+cd ../
+tar -czf rf_classifier_v&lt;version_number&gt;.tar.gz rf_classifier_v&lt;version_number&gt;
+</pre></div>
+</div>
+<p>As a reminder, somewhere in here you will need to update the audit stuff.  The documentation expects to find it in a
+directory named “audit” one level up from the documentation root.</p>
+<p>Finally, you will need to create links to any supported models.  If this is the first install, there aren’t yet any
+models, and you will need to continue in Model Install Guide below.  Remember, the links should include in their name
+both the model name and model version.  To create a link to a model::</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /cs/certified/apps/rf_classifier/&lt;version&gt;/models
+ln -s /usr/csite/certified/libexec/rf_classifier_models/&lt;model_name&gt;_v&lt;model_version&gt; .
+</pre></div>
+</div>
+</div>
+<div class="section" id="sqam-model-install-guide">
+<h2>SQAM Model Install Guide<a class="headerlink" href="#sqam-model-install-guide" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note: these steps will need to be repeated for each supported architecture.</strong></p>
+<p>Once the application has been installed, you will need to install a model application.  You should have received a
+versioned tarball, similar to the main rf_classifier, containing the software to be installed.  Unpack this tarball
+somewhere temporary.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /tmp/
+tar -xzf &lt;model&gt;_v&lt;version&gt;.tar.gz
+</pre></div>
+</div>
+<p>Then prepare the installation directory of the model.  A model will likely need to be built in this directory, but please
+defer to the actual installation instructions in the model:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /cs/certified/apps/rf_classifier
+mkdir -p models/&lt;model_name&gt;/&lt;model_version&gt;/&lt;arch&gt;
+</pre></div>
+</div>
+<p>The model will have a README.md file in it’s root (or possibly some other set of obvious documentation).  Follow the
+instructions in it for setting it up.  This will likely include building an architecture dependent Python virtual
+environment, and run the test/test_model.py script after activating that venv.  This step should result in you
+installing the model into the above directory  You will need to repeat this step for
+every supported architecture.</p>
+<p>Then create the architecture dependent certified libexec links.  <strong>You will need to do this step on every supported
+architecture.</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /usr/csite/certified/libexec
+mkdir rf_classifier_models
+cd rf_classifier_models
+ln -s /cs/certified/apps/rf_classifier/models/&lt;model_name&gt;/&lt;model_version&gt;/&lt;arch&gt; &lt;model_name&gt;_v&lt;model_version&gt;
+</pre></div>
+</div>
+<p>Finally, link this model into a supporting version of rf_classifier.  You may need to speak with the developer to find
+out which versions are supported.  <strong>Note: this needs to be done for each supported architecture for the application.</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /cs/certified/apps/rf_classifier/&lt;version&gt;/models
+ln -s /usr/csite/certified/libexec/rf_classifier_models/&lt;model_name&gt;_v&lt;model_version&gt; .
+</pre></div>
+</div>
+<p>Then test that this model is useable.  Run rf_classifiers tester script.  It should pickup the model’s tests.  Also,
+try to run the model.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd ../
+tests/tester.bash
+bin/rf_classifier.bash list_models &lt;model_name&gt;_v&lt;model_version&gt;
+bin/rf_classifier.bash analyze -m &lt;model_name&gt;_v&lt;model_version&gt; /usr/opsdata/waveforms/data/rf/&lt;zone&gt;/&lt;date&gt;/&lt;timestamp&gt;/
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../dev_guide/index.html" class="btn btn-neutral float-right" title="rf_classifier Developer Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Admin Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Adam Carpenter
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
