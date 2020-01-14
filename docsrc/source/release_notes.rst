@@ -2,7 +2,7 @@
 Release Notes
 +++++++++++++++++++++++++++++++++++++++++
 
-**January 9, 2019 - v1.0.2**
+**January 10, 2019 - v1.0.2**
 
 This version includes only updates to documentation, and a bug fix for building documentation.
 
