@@ -23,5 +23,5 @@ github:
 	rm -rf build/html/*
 	rm -rf ../docs/*
 	@make html
-	cp -r audit/ build/html/
-	cp -r build/html/* ../docs
+	cp -r certified_files ../docs
+	cp -r build/html/* ../docs/app_guide
