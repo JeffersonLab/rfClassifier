@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>rf_classifier Developer Guide &mdash; rf_classifier 1.0.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How To Generate Documentation" href="docs.html" />
+    <link rel="prev" title="Certified Install Guide" href="../admin_guide/certified_install.html" />
+    <link href="../_static/rtd_custom.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> rf_classifier
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/index.html">Admin Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs.html">Generating Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pluggable-model-requirements">Pluggable Model Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Links</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rf_classifier</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>rf_classifier Developer Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev_guide/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rf-classifier-developer-guide">
+<h1>rf_classifier Developer Guide<a class="headerlink" href="#rf-classifier-developer-guide" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs.html">Generating Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs.html#first-steps">First steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This guide is intended to help new developers quickly get up to speed.  The rf_classifier application is made up of essentially two types of software components, the main rf_classifier python application and the pluggable models.  The main application is designed to be as minimal as possible while still capable of processing user input, stored configuration, and loading pluggable models.  The pluggable models are responsible for the majority of the application’s workload - namely classifying C100 RF faults based on waveform data captured at the time of the fault.  The classification models used in this process will likely be under development for some time as better models are created and additional classes of faults are identified.</p>
+<p>These pluggable models will be developed by different parties using different techniques and relying on different Python software stacks.  Current machine learning software stacks are often very particular about dependency versions.  Maintaining a single Python package source would eventually run into difficult to resolve version conflicts.  Supporting pluggable models is achieved by making each model a separate application, capable of having a separate Python environment.  However, each model must still adhere to some standards that allow interoperability.</p>
+<p>See the API Documentation for details on supporting modules.</p>
+</div>
+<div class="section" id="pluggable-model-requirements">
+<h2>Pluggable Model Requirements<a class="headerlink" href="#pluggable-model-requirements" title="Permalink to this headline">¶</a></h2>
+<p>Pluggable models must meet the following requirements.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">models must be directories with the following structure::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">model_dir</span><span class="o">&gt;/</span>
+    <span class="nb">bin</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bash</span>
+    <span class="n">docs</span><span class="o">/</span>
+    <span class="n">lib</span><span class="o">/</span>
+    <span class="n">test</span><span class="o">/</span>
+        <span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">/</span>
+        <span class="n">test_</span><span class="o">*.</span><span class="n">py</span>
+    <span class="n">description</span><span class="o">.</span><span class="n">yaml</span>
+    <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>where</p>
+<ul class="simple">
+<li>&lt;model_dir&gt; is a string of the format &lt;model_name&gt;_&lt;model_version&gt;</li>
+<li>bin/model.bash is the executable used to interact with the model.  It should accept the path to event directories as it’s only arguments.  Optionally, a model.ps1 may be inlucded for Windows support/</li>
+<li>docs/ contains the following:<ul>
+<li>documentation about the model and how it functions</li>
+<li>installation instructions for the model</li>
+<li>a description of the data on which the model was trained</li>
+</ul>
+</li>
+<li>lib/ will contain any python code or Pickle files associated with the model</li>
+<li>test/ will contain all files associated with running unittest-based unit tests<ul>
+<li>all test scripts should be based on unittest and be named in such a way that they are discoverable by the unittest module start from the test directory (e.g., named with a leading “test_”)</li>
+<li>tests should include actual waveform data</li>
+<li>models must include at least one test script</li>
+</ul>
+</li>
+<li>description.yaml is a YAML formatted file that contains information about the model.  Is should include at least
+the following fields.<ul>
+<li>id: The model identifier, i.e., &lt;model_name&gt;_&lt;model_version&gt;</li>
+<li>releaseDate: The model’s release date</li>
+<li>cavLabels: An array containing all possible valid cavity string labels associated with the model’s output</li>
+<li>faultLabels: An array containing all possible valid string fault type labels associated with the model’s output</li>
+<li>brief: A one-line description of the model</li>
+<li>details: A longer description detailing any important features of the model</li>
+</ul>
+</li>
+<li>requirements.txt: An optional file that is used by pip (usually in conjunction with virtualenv) to install the
+model’s package dependencies.</li>
+</ul>
+</li>
+<li><p class="first">models must return a JSON object with the following structure.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;cavity-label&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s2">&quot;cavity-confidence&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s2">&quot;fault-label&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s2">&quot;fault-confidence: &lt;float&gt;,</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where</p>
+<ul class="simple">
+<li>cavity-label and fault-label are strings defined by the model for classifying faults</li>
+<li>cavity-confidence and fault-confidence are numbers in [0,1] or None relaying the confidence of the model in it’s classification</li>
+<li>timestamp is a string of the format ‘yyyy-mm-dd HH:MM:ss.S”, e.g., ‘2019-12-25 22:45:13.5’</li>
+<li>location is a string representing the zone where this event occurred</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>In order to make developing these models more straight forward, the application contains code that may be linked to or
+copied into a model and modified.  This code is contained in three Python modules, mya.py, utils.py, and base_model.py.
+base_model.py relies on utils.py and mya.py, and contains a number of convenient functions for validating and parsing
+waveform data found in an event directory.  Additionally the base_model module defines a class BaseModel
+with a single abstract method, analyze(), which is to be defined in child classes and should return the results of the
+classification analysis.</p>
+<p>Developers should see <a class="reference external" href="https://github.com/JeffersonLab/rf_classifier_random_forest">https://github.com/JeffersonLab/rf_classifier_random_forest</a> for an example of a pluggable model
+and reference the API Documentation for details of the base_model, mya, and utils modules.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="docs.html" class="btn btn-neutral float-right" title="How To Generate Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../admin_guide/certified_install.html" class="btn btn-neutral float-left" title="Certified Install Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Adam Carpenter.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
