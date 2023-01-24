@@ -33,7 +33,7 @@ def parse_config_file(filename=os.path.join(app_dir, 'cfg', 'config.yaml')):
     # Default values for the config file
     default = {
         'models_dir': os.path.join(app_dir, 'models'),
-        'default_model': None
+        'default_model': f"PRO"
     }
 
     if not os.path.isfile(filename):
@@ -43,8 +43,11 @@ def parse_config_file(filename=os.path.join(app_dir, 'cfg', 'config.yaml')):
     with open(filename, "r") as f:
         config = yaml.safe_load(f.read())
 
+    if config is None:
+        config = {}
+
     for key in default.keys():
-        if key not in config:
+        if key not in config.keys():
             config[key] = default[key]
 
     config['model'] = config['default_model']
@@ -138,7 +141,7 @@ def print_model_description(model_name, config, verbose, is_default):
         None:  Prints out description or relevant error messages.
     """
 
-    desc_file = os.path.join(config['models_dir'], model_name, "description.yaml")
+    desc_file = os.path.join(config['models_dir'], model_name, os.environ['HOST_ARCH'], "description.yaml")
     if os.path.exists(desc_file):
         with open(desc_file, "r") as f:
             desc = yaml.safe_load(f.read())
@@ -190,7 +193,11 @@ def list_models(config, model=None, verbose=False):
                         print_model_description(model_name=filename, config=config, verbose=False,
                                                 is_default=(filename == default_model))
                     else:
-                        print(filename)
+                        if filename == 'PRO':
+                            path = os.path.realpath(os.path.join(config['models_dir'], filename))
+                            print(f"PRO -> {'/'.join(path.split(os.path.sep)[-2:])}")
+                        else:
+                            print(filename)
 
 
 def print_results_table(results, config, header=True):
@@ -307,6 +314,8 @@ if __name__ == "__main__":
         elif not os.path.exists(os.path.join(cfg['models_dir'], cfg['model'])):
             print("Error: model '{}' not found.".format(cfg["model"]))
             exit(1)
+
+        cfg['model'] = f"{cfg['model']}/{os.environ['HOST_ARCH']}"
 
         # Call the appropriate model and get the results
         results = run_model(cfg['model'], cfg, args.events)
