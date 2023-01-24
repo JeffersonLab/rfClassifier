@@ -30,6 +30,8 @@ build () {
     cd docsrc
     make github
     cd -
+    # The symbolic link target is relative to source, not CWD
+    ln -s ../../models/PRO models/PRO
 }
 
 test () {
@@ -41,14 +43,11 @@ test () {
 
 # This is weird to my sensibilities, but we install by removing unnecessary components the git repo
 install () {
-    echo "installing - removing the docsrc/, docs/, .git/, tests/ directories and other unneeded files."
-    rm -rf .git/
+    echo "installing - removing the docsrc/, docs/, directories and other unneeded files."
     rm -rf ./docs/
     rm -rf ./docsrc/
-    rm -rf tests/
     rm requirements.txt
     rm requirements-certified.txt
-    rm README.md
 }
 
 compact () {
