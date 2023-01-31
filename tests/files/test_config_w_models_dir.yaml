@@ -1,4 +1,0 @@
----
-some_key: "some_value"
-models_dir: "/some/junk/dir"
-# Note: default_model intentionally missing
