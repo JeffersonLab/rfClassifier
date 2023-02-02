@@ -136,15 +136,16 @@ class TestModel(TestCase):
     def test_model_validation_bad(self):
         model = Model()
 
+        data_dir = os.path.dirname(__file__) + "/test-data"
         test_paths = [
-            'test-data/bad-cavity-mode/test_zone/2018_10_04/052659.4',
-            'test-data/bad-time-interval/test_zone/2018_10_05/044556.2',
-            'test-data/duplicate-cfs/test_zone/2018_10_05/044408.2',
-            'test-data/duplicate-waveforms/test_zone/2018_10_05/044556.2',
-            'test-data/mismatched-times/test_zone/2018_10_05/044556.2',
-            'test-data/missing-cfs/test_zone/2018_10_05/044408.2',
-            'test-data/missing-waveforms/test_zone/2018_10_05/044556.2',
-            'test-data/short-test/test_zone/0000_00_00/000000.0'
+            f'{data_dir}/bad-cavity-mode/test_zone/2018_10_04/052659.4',
+            f'{data_dir}/bad-time-interval/test_zone/2018_10_05/044556.2',
+            f'{data_dir}/duplicate-cfs/test_zone/2018_10_05/044408.2',
+            f'{data_dir}/duplicate-waveforms/test_zone/2018_10_05/044556.2',
+            f'{data_dir}/mismatched-times/test_zone/2018_10_05/044556.2',
+            f'{data_dir}/missing-cfs/test_zone/2018_10_05/044408.2',
+            f'{data_dir}/missing-waveforms/test_zone/2018_10_05/044556.2',
+            f'{data_dir}/short-test/test_zone/0000_00_00/000000.0'
         ]
 
         msgs = []
@@ -166,10 +167,11 @@ class TestModel(TestCase):
     def test_model_validation_good(self):
         model = Model()
 
+        data_dir = os.path.dirname(__file__) + "/test-data"
         test_paths = [
-            'test-data/good-cavity-mode/test_zone/2018_10_04/052657.4',
-            'test-data/good-example/test_zone/2018_10_05/044556.2',
-            'test-data/good-example-meta/test_zone/2018_10_05/044556.2',
+            f'{data_dir}/good-cavity-mode/1L25/2023_02_01/210026.1',
+            f'{data_dir}/good-example/1L25/2023_02_01/210026.1',
+            f'{data_dir}/good-example-meta/1L25/2023_02_01/210026.1',
         ]
 
         msgs = []
