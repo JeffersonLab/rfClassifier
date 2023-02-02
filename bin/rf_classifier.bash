@@ -9,6 +9,5 @@ source ${DIR}/../venv/bin/activate
 # Run the app passing along all of the args
 python3 -m rf_classifier.main "$@"
 
-# Put the environment back the way it was.  Probably unnecesaary, but just in case the source does something really
-# unexpected
+# Put the environment back the way it was.  Probably unnecessary, but just in case the source does something unexpected.
 deactivate
