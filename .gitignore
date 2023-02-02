@@ -3,8 +3,8 @@ docsrc/build/*
 *~
 
 # We are commiting the compressed versions of these, and unpacking on install.
-test/test_results.txt
-test/test-data/*
+tests/test_results.txt
+tests/test-data/tmp/*
 
 # IDE directory and git
 .idea/
