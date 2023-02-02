@@ -128,6 +128,10 @@ class Model:
 
     def update_example(self, path: str):
         """Updates the currently loaded example to reflect the new path"""
+
+        if not path.startswith(os.sep):
+            raise ValueError("Path to fault-data must be absolute")
+
         # Update info in the model for the currently loaded example
         path = path.rstrip(os.sep)
         zone_name, fault_time = utils.path_to_zone_and_timestamp(path)
