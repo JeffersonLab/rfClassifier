@@ -18,7 +18,7 @@ class TestUtils(TestCase):
         path = os.path.join("some", "path", "1L99", "2018_05_01", "012345.6")
 
         e_zone = '1L99'
-        e_timestamp = datetime(year=2018, month=5, day=1, hour=1, minute=23, second=45, microsecond=600000)
+        e_timestamp = "2018-05-01 01:23:45.6"
 
         r_zone, r_timestamp = utils.path_to_zone_and_timestamp(path)
 
