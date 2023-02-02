@@ -1,0 +1,11 @@
+zone	cavity	cav#	fault	time	cav_pred	cav_conf	fault_pred	fault_conf	throws	model
+1L26	0	49	Multi Cav turn off	2020-03-07 08:19:56	0	0.0001	Multi Cav turn off	0.0001	True	cnn_lstm_v1_0
+1L26	0	49	Multi Cav turn off	2019-08-04 13:50:53	0	0.0001	Multi Cav turn off	0.0001	True	cnn_lstm_v1_0
+0L04	1	1	Single Cav Turn off	2020-03-07 18:54:48	-1	0.0	None	0.0	True	cnn_lstm_v1_0
+2L25	0	81	Multi Cav turn off	2022-05-03 21:30:15	0	99.26	Multi Cav turn off	99.26	False	cnn_lstm_v1_0
+1L24	4	36	Controls Fault	2022-05-06 23:04:27	4	53.40	Controls Fault	97.25	False	cnn_lstm_v1_0
+1L24	8	40	E_Quench	2022-05-08 13:42:50	8	98.85	E_Quench	96.44	False	cnn_lstm_v1_0
+1L24	1	33	Single Cav Turn off	2022-05-11 07:55:22	1	95.13	Single Cav Turn off	87.70	False	cnn_lstm_v1_0
+1L22	4	20	Microphonics	2022-05-19 13:23:31	4	87.49	Microphonics	99.99	False	cnn_lstm_v1_0
+2L25	8	88	Quench_100ms	2022-05-20 04:32:04	2	97.59	Quench_100ms	99.96	False	cnn_lstm_v1_0
+2L23	8	72	Single Cav Turn off	2022-05-20 16:59:35	8	72.58	Quench_3ms	40.33	False	cnn_lstm_v1_0
