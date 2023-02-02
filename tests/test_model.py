@@ -42,6 +42,7 @@ class TestModel(TestCase):
             num_tests = len(test_set.get_events())
             print(f"Testing {num_tests} events.  This may take ~{num_tests * 3} seconds.")
 
+            msgs = []
             ts_new_df = test_set.test_set_df.copy()
             for test_event in test_set.get_events():
                 event = testing_utils.EventData(zone=test_event['zone'], timestamp=test_event['timestamp'])
@@ -50,8 +51,8 @@ class TestModel(TestCase):
                     event.get_event_data()
                 except Exception as exc:
                     failed += 1
-                    print("## Failed to get data for test.")
-                    print(exc)
+                    msgs.append("## Failed to get data for test.")
+                    msgs.append(exc)
 
                     continue
 
@@ -82,7 +83,7 @@ class TestModel(TestCase):
                         ts_new_df.loc[z_match & t_match, 'throws'] = False
 
                         failed += 1
-                        print(f"## FAIL: Event {test_event['zone']} - {test_event['timestamp']} should"
+                        msgs.append(f"## FAIL: Event {test_event['zone']} - {test_event['timestamp']} should"
                               f" have thrown exception but did not")
 
                 else:
@@ -90,9 +91,7 @@ class TestModel(TestCase):
                         result = mod.analyze(deployment=deployment)
                     except Exception as e:
                         failed += 1
-                        print(f"## FAIL: Event {test_event['zone']} - {test_event['timestamp']} exception during analysis")
-                        print("Error analyzing data")
-                        print(repr(e))
+                        msgs.append(f"## FAIL: Event {test_event['zone']} - {test_event['timestamp']} exception during analysis. {e}")
 
                         z_match = ts_new_df.zone == test_event['zone']
                         t_match = ts_new_df.time == test_event['timestamp']
@@ -117,14 +116,12 @@ class TestModel(TestCase):
                         self.assertDictEqual(expect, result)
                     except Exception as e:
                         failed += 1
-                        print(f"## FAIL: Event {test_event['zone']} - {test_event['timestamp']} had unexpected results.")
-                        print(e)
+                        msgs.append(f"## FAIL: Event {test_event['zone']} - {test_event['timestamp']} had unexpected results. {e}")
 
                 try:
                     event.delete_event_data()
                 except Exception as e:
-                    print("## Error deleting data")
-                    print(e)
+                    msgs.append("## Error deleting data - {e}")
 
             # Convert back to the numeric version.
             ts_new_df.loc[ts_new_df['cav_pred'] == 'multiple', 'cav_pred'] = '0'
@@ -133,7 +130,61 @@ class TestModel(TestCase):
             ts_new_df.to_csv(test_results_file, sep='\t', index=False)
 
             if failed > 0:
-                self.fail(f"Failed {failed} example tests")
+                msgs = [f"Failed {failed} example tests"] + msgs
+                self.fail('\n'.join(msgs))
+
+    def test_model_validation_bad(self):
+        model = Model()
+
+        test_paths = [
+            'test-data/bad-cavity-mode/test_zone/2018_10_04/052659.4',
+            'test-data/bad-time-interval/test_zone/2018_10_05/044556.2',
+            'test-data/duplicate-cfs/test_zone/2018_10_05/044408.2',
+            'test-data/duplicate-waveforms/test_zone/2018_10_05/044556.2',
+            'test-data/mismatched-times/test_zone/2018_10_05/044556.2',
+            'test-data/missing-cfs/test_zone/2018_10_05/044408.2',
+            'test-data/missing-waveforms/test_zone/2018_10_05/044556.2',
+            'test-data/short-test/test_zone/0000_00_00/000000.0'
+        ]
+
+        msgs = []
+        tests_failed = 0
+        for p in test_paths:
+            try:
+                model.update_example(p)
+                model.analyze()
+            except:
+                pass
+            else:
+                tests_failed += 1
+                msgs.append(f"## FAIL: '{p}' should have raise exception but didn't")
+
+        if tests_failed > 0:
+            msgs = [f"## FAILED {tests_failed} 'bad' data validation tests"] + msgs
+            self.fail('\n'.join(msgs))
+
+    def test_model_validation_good(self):
+        model = Model()
+
+        test_paths = [
+            'test-data/good-cavity-mode/test_zone/2018_10_04/052657.4',
+            'test-data/good-example/test_zone/2018_10_05/044556.2',
+            'test-data/good-example-meta/test_zone/2018_10_05/044556.2',
+        ]
+
+        msgs = []
+        tests_failed = 0
+        for p in test_paths:
+            try:
+                model.update_example(p)
+                model.analyze()
+            except Exception as ex:
+                msgs.append(f"## FAIL: '{p}' raised exception\n   {ex}")
+                tests_failed += 1
+
+        if tests_failed > 0:
+            msgs = [f"## FAILED {tests_failed} 'good' data validation tests"] + msgs
+            self.fail('\n'.join(msgs))
 
 
 if __name__ == '__main__':
