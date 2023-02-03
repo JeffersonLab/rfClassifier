@@ -39,8 +39,6 @@ class TestModel(TestCase):
             test_file = os.path.join(app_root, 'tests', 'test_set.txt')
             test_results_file = os.path.join(app_root, 'tests', 'test_results.txt')
             test_set = testing_utils.TestSet(test_file)
-            num_tests = len(test_set.get_events())
-            print(f"Testing {num_tests} events.  This may take ~{num_tests * 3} seconds.")
 
             msgs = []
             ts_new_df = test_set.test_set_df.copy()
