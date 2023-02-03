@@ -107,10 +107,13 @@ docs () {
     rm -rf ../docs
   fi
   echo "Installing locally"
-  install_local
+  run_install_local
 
   echo "Generating docs"
-  docsrc make github
+  opwd=$(pwd)
+  cd docsrc
+  make github
+  cd $opwd
 }
 
 run_tests () {
