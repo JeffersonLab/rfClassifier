@@ -245,10 +245,10 @@ class Model:
 
         This method inspects the event directory and raises an exception if a problem is found.  The following aspects
         of the event directory and waveform data are validated.
-           # All eight cavities are represented by exactly one capture file
-           # All of the required waveforms are represented exactly once
-           # All of the capture files use the same timespan and have constant sampling intervals
-           # All of the cavity are in the appropriate control mode (GDR I/Q => 4 or SELAP => 64)
+        - All eight cavities are represented by exactly one capture file
+        - All of the required waveforms are represented exactly once
+        - All of the capture files use the same timespan and have constant sampling intervals
+        - All of the cavity are in the appropriate control mode (GDR I/Q => 4 or SELAP => 64)
 
         Args:
             deployment (str):  Which MYA deployment to use when validating cavity operating modes.
