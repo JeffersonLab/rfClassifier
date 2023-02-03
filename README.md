@@ -85,6 +85,12 @@ cd ..
 tar -czf rf_classifier0.1.tgz rf_classifier0.1/
 ```
 
+### Embedded Model
+Starting with version 2.0, rf_classifier contains as single classification model class (no more pluggable models).  New
+models should be placed into the rf_classifier.model package along with any required artifact files (pickle files, onnx
+files, etc.), and a description.yaml.  The description.yaml file is used to provide information on the model through the
+command line interface ``rf_classifier describe`` command.
+
 ## Documentation
 
 Online documentation is available at https://jeffersonlab.github.io/rf_classifier
