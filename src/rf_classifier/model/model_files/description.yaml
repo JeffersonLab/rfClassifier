@@ -31,7 +31,7 @@ brief: "Uses CNN/LSTM deep learning model to classify RF faults using waveform d
 details: |+2
 
     This model uses CNN/LSTM deep learning models to identify the faulted cavity and fault type of a C100 event based 
-    on a .
+    on the waveform data captured by harvester daemon.
 
     This model is based on work done by Chris Tennant, Lasitha Vidyaratne, Md. Monibor Rahman, Tom Powers, etc. and
     represents an improved model used to identify which cavity and fault type is associated with a C100 fault event.
