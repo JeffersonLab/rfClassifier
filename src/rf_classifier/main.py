@@ -88,7 +88,6 @@ def print_results_table(results: Dict[str, Any], header=True):
 
             # We might not have received any errors.  Only print the header if needed.
             if first_error:
-                print()
                 print(err_fmt.format("Zone", "Timestamp", "Error"))
                 first_error = False
             print(err_fmt.format(
@@ -101,8 +100,8 @@ def print_results_table(results: Dict[str, Any], header=True):
 def main():
     """The main function.  Run argument parsing, make predictions, and present results."""
     parser = argparse.ArgumentParser(
-        description=f"{name} v{version}\nA program that determines the fault type and offending cavity based on a"
-                    " waveform data from a C100 fault event", epilog="Users may select a specific model if desired.")
+        description=f"{name} v{version}: A program that determines the fault type and offending cavity based on a"
+                    " waveform data from a C100 fault event", epilog="Pluggable models are no longer available.")
     subparsers = parser.add_subparsers(help='commands', dest='subparser_name')
     describe_model = subparsers.add_parser('describe', help='Describe the embedded model')
     describe_model.add_argument('-v', '--verbose', action='store_true', help='Print verbose model info')
