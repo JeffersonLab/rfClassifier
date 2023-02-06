@@ -171,9 +171,9 @@ class Model:
         Arguments:
             deployment:
 
-            Returns:
-                dict: A dictionary containing the results of the analysis.  Detailed key/value information given in the
-                table below.
+        Returns:
+            dict: A dictionary containing the results of the analysis.  Detailed key/value information given in the
+            table below.
 
             +---------------------+------------+-----------------------------------------------------------------+
             | Key                 | Value Type | Value Descriptions                                              |
