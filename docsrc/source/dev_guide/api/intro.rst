@@ -1,42 +1,47 @@
 +++++++++++++++++++++++++++++++++
-Pluggable Model API Introduction
+Embedded Model API Introduction
 +++++++++++++++++++++++++++++++++
 
 =================================
 Overview
 =================================
 The C100 RF Waveform Fault Classifier application, or rf_classifier, was developed to identify the offending cavity and
-fault type for RF faults occuring within a C100 cryomodule by analyzing the harvested RF waveforms.  The methods and
-models used to analyze these faults are areas of activity development and are given to change over time.  To more easily
-accommodate this reality, rf_classifier is designed around "pluggable" models.
+fault type for RF faults occuring within a C100 cryomodule by analyzing the harvested RF waveforms.  Older versions of
+this software supported multiple pluggable models.  In practice, only the most recent model was of use.  Newer versions
+of the software now include a single embedded model, but the application code is structured so that updating that model
+should be a relatively straightforward process.
 
 =================================
-Purpose
+Developer Notes
 =================================
-Pluggable models are independent Python application each containing all of the logic required for the parsing and
-analysis of the data associated with an RF fault event.  Each package must have it's own documentation, test suite, and
-supply it's own package dependencies.  Each model must return output to STDOUT in JSON format as mentioned in the developer
-guide.  Since every model will need to perform a number of similar steps (e.g., data parsing or validation), the rf_classifier
-application contains python modules that can be linked to or copied and modified within a model application.
+All of the model code and artifacts should be place under the rf_classifier.model package.  The tests directory has a
+unit test for the model that uses the test_set.txt to validate proper model operations.  Data for the faults given in
+this file are dynamically loaded and require a JLab network connection.  Additional fault data is kept in
+tests/test-data.  These files are used to test the validation processes of the embedded model.  Bad data typically stays
+bad for new models, so this data kept with the application, while the examples that new model chooses to validate
+against may change over time and is dynamically loaded.
+
+When a new model is prepared.  Generate a new test/test_set.txt that lists the faults the model will be run on, and the
+expected results.  Care should be used to select data where the fault would raise an exception (i.e., invalid data),
+and faults of a variety of types and confidences.
 
 =================================
 Structure
 =================================
 The purpose of this documentation is to provide reference documentation for the extra modules provided by rf_classifier.
-The base_model module contains the various helper functions, and has two major components of which to be aware.
+The rf_classifier.model.model module contains the various helper functions, and has two major components of which to be aware.
 
-:class:`base_model.BaseModel`
-    Abstract base class defining the model interface
-:meth:`base_model.BaseModel.analyze`
+:class:`rf_classifier.model.model.Model`
+    Model class for defining the model interface
+:meth:`rf_classifier.model.model.Model.analyze`
     Performs the analysis and returns its results
+:meth:`rf_classifier.model.model.Model.update_example`
+    Loads the data associated with the specified example
 
-More detailed information is given in the base_model, mya, and utils module documentation.
+More detailed information is given in the model and utils module documentation.
 
-base_model
-  Contains the BaseModel class definition and all model related methods such as parsing or validating waveform data
+rf_classifier.model.model
+  Contains the Model class definition and all model related methods such as parsing or validating waveform data
 
-mya
-  Contains all functions necessary for interacting with JLab's MySQL Archiver (MYA)
-
-utils
+rf_classifier.utils
   Contains any utility functions not implicitly tied to a specific purpose

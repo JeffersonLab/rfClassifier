@@ -12,12 +12,14 @@ Overview
 =========================================
 rf_classifier is a command line application for analyzing C100 waveform data generated at the time of a fault.  It
 allows the user to determine (i.e., classify) which cavity faulted and which type of fault was experienced.  It does
-this analysis through the use of back-end "pluggable" models.  A model is responsible for analyzing a set of waveform
-capture files and returning and labeling which cavity faulted and which type of fault occurred.  Most models should also
-supply information about the confidence a user should place in these labels.
+this analysis through the use an embedded machine learning model that analyzes a set of waveform capture files.  The
+model should also supply information about the confidence a user should place in these labels.  Interpreting these
+confidence values can sometimes be more art than science.
 
-Users, Developers, and Admins of this software should review the "User Guide", "Developer Guide", and "Admin Guide",
-respectively for more information.
+Users and developers of this software should review the User Guide, Developer Guide, and API documentation
+as needed, respectively for more information.
+
+To get certified installation instructions, run './setup-certified.bash -h'.  Otherwise, see the project README.md file.
 
 .. toctree::
     :caption: Contents
@@ -25,7 +27,6 @@ respectively for more information.
 
     Introduction <self>
     User Guide <user_guide/index>
-    Admin Guide <admin_guide/index>
     Developer Guide <dev_guide/index>
     API Documentation <dev_guide/api/index>
     Links <links>

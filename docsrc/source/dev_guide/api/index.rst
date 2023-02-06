@@ -6,7 +6,6 @@ Pluggable Model API Documentation
     :caption: Contents
 
     Introduction <intro>
-    base_model Module <base_model>
-    mya Module <mya>
+    model Module <model>
     utils Module <utils>
 

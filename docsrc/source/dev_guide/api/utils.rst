@@ -7,5 +7,5 @@ This module contains generic utility functions.
 ==========================
 Functions
 ==========================
-.. automodule:: utils
+.. automodule:: rf_classifier.utils
     :members:
