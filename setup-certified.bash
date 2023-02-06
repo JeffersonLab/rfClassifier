@@ -22,7 +22,7 @@ To install in certified.
 
 3. Install in certified.  Copies files, install dependencies in venv dir.
 > mkdir -p /path/to/new/version
-> $0 install
+> $0 install /path/to/new/version
 
 4. Clean up this local copy into a certified tarball.
 > $0 compact
@@ -60,13 +60,15 @@ run_install () {
           exit 1
       fi
     fi
-    rsync -aq --exclude=docs  --exclude=tests --exclude=docsrc --exclude=venv/ ./ $install_dir/$os/
+    rsync -a --exclude="build/" --exclude=docs  --exclude=tests --exclude=docsrc --exclude="venv/" ./ $install_dir/$os/
     opwd=$(pwd)
     ssh $host "cd $opwd/$install_dir/$os && ./$SCRIPT_NAME install_local"
   done
 }
 
 run_install_local () {
+    install_type="$1"
+
     if [ ! -d ./venv ] ; then
         echo -n "Making venv, "
         $PYTHON -m venv ./venv
@@ -89,7 +91,11 @@ run_install_local () {
 
     # Install this application in editable mode so the source code itself is referenced
     echo -n 'source code '
-    pip3 install -qq -e .
+    if [ "$install_type" == 'dev' ] ; then
+      pip3 install -qq -e .[dev]
+    else
+      pip3 install -qq -e .
+    fi
     if [ "0" != "$?" ] ; then
         echo "Error installing application"
         exit 1
@@ -97,8 +103,10 @@ run_install_local () {
     deactivate
 
     echo "and deleting unneeded files"
-    rm -rf .git
-    rm -f README.md requirements.txt setup.cfg setup.py setup-certified.bash
+    if [ "$install_type" != 'dev' ] ; then
+      rm -rf .git test/ docsrc/ docs/ build/
+      rm -f README.md requirements.txt setup.cfg setup.py setup-certified.bash
+    fi
 }
 
 docs () {
@@ -107,13 +115,15 @@ docs () {
     rm -rf ../docs
   fi
   echo "Installing locally"
-  run_install_local
+  run_install_local dev
 
   echo "Generating docs"
+  source venv/bin/activate
   opwd=$(pwd)
   cd docsrc
   make github
   cd $opwd
+  deactivate
 }
 
 run_tests () {
