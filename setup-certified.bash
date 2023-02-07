@@ -28,7 +28,7 @@ To install in certified.
 > $0 compact
 
 Usage:
-  $0 [install|docs|test|compact]
+  $0 [test|docs|install|compact]
   test
     Build app and run tests for all architectures.  Done the build directory
   docs
@@ -169,11 +169,48 @@ compact_local () {
     rm -rf docs/
     rm -rf docsrc/build/html/*
     rm -rf build/
+    rm -rf .eggs/
     find src/ -type d -name __pycache__ -delete -o -type f -name '*.py[co]' -delete
     find tests/ -type d -name __pycache__ -delete -o -type f -name '*.py[co]' -delete
+    find ./ -type d -name "*.egg-info" -delete
 }
 
-if [ $# -ne 1 ] ; then
+make_certified_tarball () {
+  tar_name="$1"
+
+  if [ -z "$tar_name" ] ; then
+    echo "Requires one argument.  Name of tarball (without .tar.gz)"
+    exit 1
+  fi
+
+  if [ -d ../$tar_name ] ; then
+    echo "Target directory already exists - '../$tar_name'"
+    exit 1
+  fi
+
+  echo "Compacting local directory"
+  compact_local
+
+  echo "Copying local directory to $tar_name"
+  rsync -aq --exclude=".git/" --exclude=".idea/" --exclude=".vscode/" --exclude='venv/' --exclude=".git*" ./* "../$tar_name/"
+  if [ "0" != "$?" ] ; then
+    echo "Error copying to ../$tar_name"
+    exit 1
+  fi
+
+  echo "Creating tarball '../${tar_name}.tar.gz'"
+  tar -czf ../${tar_name}.tar.gz ../${tar_name}/
+  if [ "0" != "$?" ] ; then
+    echo "Error creating tarball ../$tar_name"
+    exit 1
+  fi
+
+  echo "Removing temp tarball source directory - '../${tar_name}'"
+  rm -rf ../${tar_name}/
+}
+
+if [ $# -lt 1 ] ; then
+    echo "Requires at least one argument.  Received $#"
     usage
     exit 1
 fi
@@ -188,7 +225,7 @@ case $1 in
   "install_local") run_install_local; exit 0;;
            "docs") docs; exit 0;;
            "test") run_tests; exit 0;;
-        "tarball") run_tarball; exit 0;;
+        "tarball") make_certified_tarball "$2"; exit 0;;
      "test_local") run_tests_local; exit 0;;
         "compact") compact_local; exit 0;;
                 *) echo "Unknown command: $1"; usage; exit 1;;
