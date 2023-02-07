@@ -110,14 +110,13 @@ run_install_local () {
 }
 
 docs () {
-  if [ -d ../docs ] ; then
-    echo "Deleting existing doc directory."
-    rm -rf ../docs
-  fi
   echo "Installing locally"
   run_install_local dev
 
   echo "Generating docs"
+  if [ ! -d docs ] ; then
+    mkdir docs
+  fi
   source venv/bin/activate
   opwd=$(pwd)
   cd docsrc
