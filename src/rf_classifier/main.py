@@ -38,7 +38,7 @@ def run_model(events):
         except Exception as ex:
             results.append({
                 # ex[1] is the exception message
-                'error': r'{}'.format(repr(ex)),
+                'error': f"{ex}",
                 'location': model.zone_name,
                 'timestamp': model.fault_time
             })
@@ -90,10 +90,18 @@ def print_results_table(results: Dict[str, Any], header=True):
             if first_error:
                 print(err_fmt.format("Zone", "Timestamp", "Error"))
                 first_error = False
+
+            r = {}
+            for key in result:
+                if result[key] is None:
+                    r[key] = "None"
+                else:
+                    r[key] = result[key]
+
             print(err_fmt.format(
-                result['location'],
-                result['timestamp'],
-                result['error']
+                r['location'],
+                r['timestamp'],
+                r['error']
             ))
 
 
