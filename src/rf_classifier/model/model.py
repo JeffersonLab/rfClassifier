@@ -190,6 +190,8 @@ class Model:
             +---------------------+------------+-----------------------------------------------------------------+
             | "fault-confidence"  | float      | Number between [0,1] representing fault type label confidence   |
             +---------------------+------------+-----------------------------------------------------------------+
+            | "model"             | str        | The model which produced the result                             |
+            +---------------------+------------+-----------------------------------------------------------------+
         """
         # Check that the data we're about to analyze meets any preconditions for our model
         self.validate_data(deployment)
