@@ -164,7 +164,7 @@ run_tests_local () {
 
 compact_local () {
     echo "Compacting - removing everything that can be remade by docs and test targets"
-    rm -rf ./venv/
+    rm -rf venv/
     rm -rf docs/
     rm -rf docsrc/build/html/*
     rm -rf build/
