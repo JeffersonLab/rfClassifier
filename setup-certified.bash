@@ -104,7 +104,7 @@ run_install_local () {
 
     echo "and deleting unneeded files"
     if [ "$install_type" != 'dev' ] ; then
-      rm -rf .git test/ docsrc/ docs/ build/
+      rm -rf test/ docsrc/ docs/ build/
       rm -f README.md requirements.txt setup.cfg setup.py setup-certified.bash
     fi
 }
