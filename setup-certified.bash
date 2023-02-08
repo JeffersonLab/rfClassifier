@@ -169,6 +169,8 @@ compact_local () {
     rm -rf docsrc/build/html/*
     rm -rf build/
     rm -rf .eggs/
+    rm -rf rf_classifier.egg-info
+    rm -rf src/rf_classifier.egg-info
     find src/ -type d -name __pycache__ -delete -o -type f -name '*.py[co]' -delete
     find tests/ -type d -name __pycache__ -delete -o -type f -name '*.py[co]' -delete
     find ./ -type d -name "*.egg-info" -delete
