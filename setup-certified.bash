@@ -62,7 +62,8 @@ run_install () {
     fi
     rsync -a --exclude="build/" --exclude=docs  --exclude=tests --exclude=docsrc --exclude="venv/" ./ $install_dir/$os/
     opwd=$(pwd)
-    ssh $host "cd $opwd/$install_dir/$os && ./$SCRIPT_NAME install_local"
+    # Doing the two cd commands makes it handle both relative and absolute command
+    ssh $host "cd $opwd; cd $install_dir/$os && ./$SCRIPT_NAME install_local"
   done
 }
 
