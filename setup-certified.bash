@@ -165,15 +165,16 @@ run_tests_local () {
 compact_local () {
     echo "Compacting - removing everything that can be remade by docs and test targets"
     rm -rf venv/
-    rm -rf docs/
-    rm -rf docsrc/build/html/*
+    rm -rf docs/*
+    rm -rf docsrc/build/*
     rm -rf build/
     rm -rf .eggs/
     rm -rf rf_classifier.egg-info
     rm -rf src/rf_classifier.egg-info
     find src/ -type d -name __pycache__ -delete -o -type f -name '*.py[co]' -delete
     find tests/ -type d -name __pycache__ -delete -o -type f -name '*.py[co]' -delete
-    find ./ -type d -name "*.egg-info" -delete
+    find ./ -type d -name "rf_classifier.egg-info" -delete
+    rm -rf UNKNOWN.egg-info
 }
 
 make_certified_tarball () {
