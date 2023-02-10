@@ -11,25 +11,29 @@
 </head>
 <body>
     <h1>Release Notes</h1>
-    <h2>February 8, 2023 - v2.0.0</h2>
+    <h2>February 13, 2023 - v2.0.0</h2>
     <p>This is a major update to the application with a switch from supporting multiple pluggable models, to a single
        embedded model.
         <ul>
-            <li>Dependencies updated to latest supported versions, including the bugfix in rfwtools v1.2.1
+	    <li>Added new tests that exercise the complete application across a range of expected behavior.
+	        (<a href="https://jira.acc.jlab.org/browse/RFFC-20">RFFC-20</a>).</li>
+            <li>Updated documentation structure to better mesh with certified software expectations.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-19">RFFC-19</a>).</li>
             <li>Streamlined certified installation procedure and handles multiple architectures via a single script.
+	        The move away from pluggable models also simplified problem.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-18">RFFC-18</a>).</li>
             <li>Data validation bug that produce exception on mixed sample rate has been removed by updating
-                package dependencies to newer versions.
+                package dependencies to newer versions, include updating rfwtools to v1.2.1.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-17">RFFC-17</a>).</li>
-            <li>This version now only supports a single embedded model
+            <li>This version now only supports a single embedded model.  No model or config directory is required.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-16">RFFC-16</a>,
                 <a href="https://jira.acc.jlab.org/browse/RFFC-9">RFFC-9</a>).</li>
             <li>Latest version no longer users a requirements-dev.txt file.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-15">RFFC-15</a>).</li>
-            <li>Windows is no longer a supported platform
+            <li>Windows is no longer a supported platform.  This obviates the need for better windows support.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-12">RFFC-12</a>).</li>
             <li>The setup-certified.bash script includes the simple documentation on how to install this application.
+	        The complicated 'by hand' process is no longer applicable since we don't have pluggable models.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-10">RFFC-10</a>).</li>
             <li>The application tests now include tests for the embedded model.
                 (<a href="https://jira.acc.jlab.org/browse/RFFC-8">RFFC-8</a>).</li>
