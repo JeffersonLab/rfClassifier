@@ -40,7 +40,8 @@ pytz==2022.7.1
 pytz-deprecation-shim==0.1.0.post0
 PyYAML==6.0
 requests==2.28.2
-rfwtools==1.2.1
+/cs/certified/apps/rfwtools/1.3.0/rfwtools-1.3.0-py3-none-any.whl
+#rfwtools==1.3.0
 scikit-learn==1.0.2
 scipy==1.7.3
 seaborn==0.12.2
